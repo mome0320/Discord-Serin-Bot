@@ -1,0 +1,24 @@
+{
+  "name": "music-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@discordjs/opus": "^0.5.0",
+    "discord.js": "github:discordjs/discord.js",
+    "dokdo": "github:wonderlandpark/dokdo",
+    "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
+    "node-fetch": "^2.6.1",
+    "ytdl-core": "^4.7.0",
+    "ytsr": "^3.2.1"
+  },
+  "resolutions":{
+    "dokdo/discord.js": "github:discordjs/discord.js" 
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "MoartMedia",
+  "license": "MIT"
+}
