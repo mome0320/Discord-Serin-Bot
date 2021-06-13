@@ -35,6 +35,7 @@ const intertSong = async ({player,songID,requestor,webhook}) =>{
 module.exports = {
     name: '곡추가',
     execute: async ({cmd,msg,excutor,followupWebhook}) => {
+        if(!msg.mentions.has(excutor.id)) return reply('명령어 실행자가 아닙니다.')
         if(!excutor.voice.channel) return reply('보이스 채널에 접속하세요.');
          const player = makePlayer(msg.guild,excutor.voice.channel);
         if(excutor.voice.channel.id !== player.voice.id) return reply('봇이 입장한 보이스 채널에 접속하세요.');

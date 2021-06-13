@@ -25,7 +25,9 @@ module.exports = {
             {type:1,components:buttons.slice(5,10)}
         ].filter(r=>r.components.length > 0)
         
-        bot.api.channels[msg.channel.id].messages.post({data:{content, components}})
+        bot.api.channels[msg.channel.id].messages.post({data:{content, components,message_reference:{message_id:msg.id}}}).then((data)=>{
+            msg.channel.messages.add(data,true)
+        })
         return;
     }
 }
