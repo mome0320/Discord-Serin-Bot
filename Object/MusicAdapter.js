@@ -22,8 +22,11 @@ sendPayload(data){
 }
 
 destroy(){
-    this.voiceChannel.connection?.destroy()
-    this.voiceChannel.client._players.get(this.voiceChannel.guild.id)?.destroy();
+    this.connection.destroy()
+}
+_destroyFromVoiceModule(){
+    this.voiceChannel.client._players.get(this.voiceChannel.guild.id)?._destroyFromAdapter();
+    this.voiceChannel.client._players.delete(this.voiceChannel.guild.id);
 }
 
 resolveAdapter(){
@@ -31,7 +34,7 @@ return (methods) =>{
     this.register(methods);
     return {
         sendPayload:this.sendPayload.bind(this),
-        destroy:this.destroy.bind(this)
+        destroy:this._destroyFromVoiceModule.bind(this)
     }
 }
 }
@@ -54,6 +57,7 @@ async join(){
 play(input){
 const resource = createAudioResource(input);
 this.player.play(resource);
+return this.player;
 }
 }
 
