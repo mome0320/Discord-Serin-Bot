@@ -39,7 +39,7 @@ class MusicPlayer {
     async play(){
         if(!this.nowPlaying){ if(this.responseChannel) this.responseChannel.send(`📂 현재 재생 가능한 음악이 없습니다..`); return;}
         if(this.isDead) await this.connect()
-       await this.connection.play(ytdl(this.nowPlaying.id, {quality:'highestaudio'}),{highWaterMark:1<<8});
+       await this.connection.play(ytdl(this.nowPlaying.id, {quality:'highestaudio', highWaterMark: 1<<25 }));
        this._setupDispatcher();
         if(this.responseChannel){
             const lastMessage = this.responseChannel.messages.cache.last();
