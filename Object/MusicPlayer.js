@@ -28,41 +28,47 @@ class MusicPlayer {
     get guild() {
         return this.voice.guild;
     }
-    async connect() {
-        this.connection = await this.voice.join();
-        if(this.responseChannel) this.responseChannel.send(`음성 채널(${this.connection.channel})에 정상 연결되었습니다!`)
+    get player() {
+        return this.adapter.player;
     }
-    get offset(){
+    async connect() {
+        this.connection = await this.adapter.join();
+        if(this.responseChannel) this.responseChannel.send(`음성 채널(${this.adapter.voiceChannel})에 정상 연결되었습니다!`)
+        this.player.on('stateChange',this._onPlayerStateChange.bind(this));
+        this.player.on('error',this._onPlayerError.bind(this));
+    }
+   /* get offset(){
         if(this.connection?.dispatcher){
             return this.connection.dispatcher.streamOptions.seek;
         }else{
             return 0
         }
-    }
+    }*/
     async play(){
         if(!this.nowPlaying){ if(this.responseChannel) this.responseChannel.send(`📂 현재 재생 가능한 음악이 없습니다..`); return;}
         if(this.isDead) await this.connect()
-       await this.connection.play(ytdl(this.nowPlaying.id, {quality:'highestaudio', highWaterMark: 1<<25 }));
-       this._setupDispatcher();
+       const player = this.adapter.play(ytdl(this.nowPlaying.id, {quality:'highestaudio', highWaterMark: 1<<25 }));
         if(this.responseChannel){
             const lastMessage = this.responseChannel.messages.cache.last();
             if(isPlayMessage(lastMessage)) lastMessage.edit(this.nowPlayingEmbed)
             else this.responseChannel.send(this.nowPlayingEmbed)
         }
     }
-    _setupDispatcher(){
-        if(!this.connection?.dispatcher) return;
-        this.connection?.dispatcher.once('finish',()=>{if(this.connection.status != 4) this.next()});
-        this.connection?.dispatcher.once('error',()=>{if(this.responseChannel) this.responseChannel.send(`재생 중 오류가 발생하여 다음 곡을 재생을 시도합니다..`);this.next()});
+    _onPlayerStateChange(old,now){
+        if(old.status == 'playing'&&now.status == 'idle') this.next();
     }
-    async seek(sec){
+    _onPlayerError(error){
+        if(this.responseChannel) this.responseChannel.send(`재생 중 오류가 발생하여 다음 곡을 재생을 시도합니다.. ${error}`);
+        this.next();
+    }
+    /*async seek(sec){
         if(this.connection?.dispatcher){
             let seekSec = Math.floor(((this.playTime/1000)+sec));
             if(seekSec < 0) seekSec = 0;
         await this.connection.play(ytdl.downloadFromInfo(this.YTDLInfo),{highWaterMark:1<<8,seek:seekSec});
             this._setupDispatcher();
         }
-    }
+    }*/
     
     async next(){
         if(this.nowPlaying && this.mode === REPEAT.ONE) return this.play();
@@ -78,16 +84,15 @@ class MusicPlayer {
     }
 
     async skip(){
-        if(this.connection?.dispatcher)
-        this.connection?.dispatcher.end() //end event call next()
+        this.adapter.player?.stop() //stop event call next()
     }
 
     get isDead(){
-       return (!this.connection || this.connection.status === 4)
+       return (!this.adapter.connection || this.adapter.connection.state.status === "destroyed" || this.adapter.connection.state.status === "disconnected")
     }
 
     get isPlay(){
-        return !this.isDead&&this.connection.dispatcher
+        return !this.isDead && this.player?.state.status == 'playing'
      }
 
     getList(page=1){
@@ -104,16 +109,18 @@ class MusicPlayer {
         return new MessageEmbed().setAuthor('재생할 곡이 없습니다.')
     }
     get playTime() {
-            return this.isPlay ? this.connection.dispatcher.streamTime+(this.offset*1000) : 0;
+            return this.isPlay ? this.player.state.playbackDuration+(this.offset*1000) : 0;
     }
     get playTimeDuration(){
         if(this.isPlay) return moment.duration(this.playTime,'milliseconds').format();
     }
     destroy() {
         this.stopLiveMessage();
-        if(!this.isDead) this.connection.disconnect();
-        if(this.responseChannel) this.responseChannel.send(`🛑 음악을 종료합니다.`);
-        this.client._players.delete(this.guild.id);
+        this.adapter.destroy();
+    }
+    _destroyFromAdapter() {
+        this.stopLiveMessage();
+            if(this.responseChannel) this.responseChannel.send(`🛑 음악을 종료합니다.`);
     }
     get status(){
         const REPEATLIST = ['','🔁','🔂']
@@ -135,15 +142,15 @@ class MusicPlayer {
     }
 
     get isPaused(){
-        return this.connection?.dispatcher?.paused
+        return this.player?.state.status == 'paused'
     }
 
     async togglePause(){
-        if(!this.connection?.dispatcher) return;
+        if(!this.player) return;
         if(this.isPaused){
-            this.connection.dispatcher.resume()
+            this.player.unpause()
         }else{
-            this.connection.dispatcher.pause()
+            this.player.pause()
         }
     }
     get playbuttonEmoji(){
