@@ -50,10 +50,21 @@ const InteractionCreate = async function (data) {
         return;
     }
   }
+
+const onVoiceServerUpdate = async function (data){
+    if(this._players.get(data.guild_id)?.adapter.sendVoiceServer)
+    this._players.get(data.guild_id)?.adapter.sendVoiceServer(data);
+}
+const onVoiceStateUpdate = async function (data){
+    if(this._players.get(data.guild_id)?.adapter.sendVoiceState)
+    this._players.get(data.guild_id)?.adapter.sendVoiceState(data);
+}
   
 module.exports = {
     raw: {
-        INTERACTION_CREATE: InteractionCreate
+        INTERACTION_CREATE: InteractionCreate,
+        VOICE_SERVER_UPDATE: onVoiceServerUpdate,
+        VOICE_STATE_UPDATE: onVoiceStateUpdate
       },
     normal:{
     ready: onReady,

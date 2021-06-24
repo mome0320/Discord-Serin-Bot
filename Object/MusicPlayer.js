@@ -2,7 +2,8 @@ const moment = require("moment");
 const momentDurationFormatSetup = require("moment-duration-format");
 momentDurationFormatSetup(moment);
 const ytdl = require('ytdl-core')
-const { MessageEmbed } = require('discord.js')
+const { MessageEmbed } = require('discord.js');
+const VoiceAdapter = require("./MusicAdapter");
 const REPEAT = {
     NONE: 0,
     ALL: 1,
@@ -16,12 +17,14 @@ class MusicPlayer {
     this.playlist = []
     this.nowPlaying = null
     this.voice = musicChannel 
+    this.adapter = new VoiceAdapter(this.voice)
     this.connection = null
     this.responseChannel = null
     this.mode = REPEAT.NONE
     this.liveMessage = null
     this.interval = null
     }
+
     get guild() {
         return this.voice.guild;
     }
