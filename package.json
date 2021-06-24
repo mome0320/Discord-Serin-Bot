@@ -10,11 +10,11 @@
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "node-fetch": "^2.6.1",
-    "ytdl-core": "^4.7.0",
+    "ytdl-core": "github:mome0320/node-ytdl-core",
     "ytsr": "^3.2.1"
   },
-  "resolutions":{
-    "dokdo/discord.js": "github:discordjs/discord.js" 
+  "resolutions": {
+    "dokdo/discord.js": "github:discordjs/discord.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
