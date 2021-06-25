@@ -26,7 +26,7 @@ class VoiceAdapter {
   _voiceRegister(methods) {
     this.sendVoiceServerData = methods.onVoiceServerUpdate;
     this.sendVoiceStateData = (data) => {
-      if(!data.channel_id) return this.destroy();
+      if (!data.channel_id) return this.destroy();
       if (data.self_mute) {
         this.connection?.state.subscription?.unsubscribe();
       } else {
