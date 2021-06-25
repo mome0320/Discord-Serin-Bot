@@ -490,11 +490,11 @@ discord-api-types@^0.18.1:
     "@discordjs/collection" "^0.1.6"
     "@discordjs/form-data" "^3.0.1"
     "@sapphire/async-queue" "^1.1.2"
-    "@types/ws" "^7.4.4"
     abort-controller "^3.0.0"
-    discord-api-types "^0.18.1"
     node-fetch "^2.6.1"
-    ws "^7.4.6"
+    prism-media "^1.2.9"
+    tweetnacl "^1.0.3"
+    ws "^7.4.5"
 
 doctrine@^3.0.0:
   version "3.0.0"
@@ -503,9 +503,9 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
-"dokdo@github:wonderlandpark/dokdo":
+"dokdo@github:mome0320/dokdo#support-djs-v13":
   version "0.3.0"
-  resolved "https://codeload.github.com/wonderlandpark/dokdo/tar.gz/5c7a2ff479b25ff8380a4a10cbe19750d0203cb4"
+  resolved "https://codeload.github.com/mome0320/dokdo/tar.gz/3b44e4fbb4f02ba1997bfda1a67cd454c23a2ca7"
   dependencies:
     dayjs "^1.9.6"
     node-fetch "^2.6.1"
