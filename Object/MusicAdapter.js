@@ -3,15 +3,21 @@ const {joinVoiceChannel, entersState, VoiceConnectionStatus, createAudioPlayer} 
 class VoiceAdapter{
 constructor(music){
     this.voiceChannel = music;
-    this.sendVoiceServer = null;
-    this.sendVoiceState = null;
+    this.sendVoiceServerData = null;
+    this.sendVoiceStateData = null;
     this.connection = null;
     this.player = createAudioPlayer()
 }
 
-register(methods){
-this.sendVoiceServer = methods.onVoiceServerUpdate;
-this.sendVoiceState = methods.onVoiceStateUpdate;
+_voiceRegister(methods){
+this.sendVoiceServerData = methods.onVoiceServerUpdate;
+this.sendVoiceStateData = (data)=>{
+    if(data.self_mute){
+        this.connection?.state.subscription?.unsubscribe();
+    }else{
+        this.connection?.subscribe(this.player);
+    }
+methods.onVoiceStateUpdate(data)};
 }
 
 sendPayload(data){
@@ -31,7 +37,7 @@ _destroyFromVoiceModule(){
 
 resolveAdapter(){
 return (methods) =>{
-    this.register(methods);
+    this._voiceRegister(methods);
     return {
         sendPayload:this.sendPayload.bind(this),
         destroy:this._destroyFromVoiceModule.bind(this)
