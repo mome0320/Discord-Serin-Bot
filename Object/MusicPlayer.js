@@ -1,7 +1,6 @@
 const moment = require("moment");
 const momentDurationFormatSetup = require("moment-duration-format");
 momentDurationFormatSetup(moment);
-const ytdl = require('ytdl-core')
 const { MessageEmbed } = require('discord.js');
 const VoiceAdapter = require("./MusicAdapter");
 const REPEAT = {
@@ -44,8 +43,8 @@ class MusicPlayer {
 
     async play(){
         if(!this.nowPlaying){ if(this.responseChannel) this.responseChannel.send(`📂 현재 재생 가능한 음악이 없습니다..`); return;}
-        if(this.isDead) await this.connect()
-        this.adapter.play(ytdl(this.nowPlaying.id, {quality:'highestaudio', highWaterMark: 1<<25 }));
+        if(this.isDead) this.connect()
+        this.player.play(this.nowPlaying.createAudioResource());
         if(this.responseChannel){
             const lastMessage = this.responseChannel.messages.cache.last();
             if(isPlayMessage(lastMessage)) lastMessage.edit(this.nowPlayingEmbed)
@@ -82,7 +81,7 @@ class MusicPlayer {
     }
 
     get isPlay(){
-        return !this.isDead && this.player?.state.status == 'playing'
+        return !this.isDead && this.player?.state.status != 'idle'
      }
 
     getList(page=1){
