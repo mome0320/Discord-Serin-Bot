@@ -9,6 +9,15 @@ constructor(music){
     this.player = createAudioPlayer()
 }
 
+voiceChannelChange(channel){
+    this.voiceChannel = channel;
+    if(this.connection){
+        const config = this.connection.joinConfig;
+        config.channelId = this.voiceChannel.id;
+        this.connection.rejoin(config)
+    }
+}
+
 _voiceRegister(methods){
 this.sendVoiceServerData = methods.onVoiceServerUpdate;
 this.sendVoiceStateData = (data)=>{
