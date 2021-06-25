@@ -29,7 +29,7 @@ this.sendVoiceStateData = (data)=>{
 methods.onVoiceStateUpdate(data)};
 }
 
-sendPayload(data){
+_sendPayload(data){
     const shard = this.voiceChannel.guild.shard
     if(shard.status == 0){shard.send(data);
     return true
@@ -48,7 +48,7 @@ resolveAdapter(){
 return (methods) =>{
     this._voiceRegister(methods);
     return {
-        sendPayload:this.sendPayload.bind(this),
+        sendPayload:this._sendPayload.bind(this),
         destroy:this._destroyFromVoiceModule.bind(this)
     }
 }
@@ -62,13 +62,13 @@ async join(){
     })
     try{
         await entersState(this.connection,VoiceConnectionStatus.Ready,30e3);
-        this.connection.subscribe(this.player)
         return this.connection;
     }catch(err){
         this.destroy();
         throw err;
     }
 }
+
 play(input){
 this.player.play(input);
 return this.player;
