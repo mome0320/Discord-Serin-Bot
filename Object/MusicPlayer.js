@@ -37,6 +37,13 @@ class MusicPlayer {
     return this.adapter.connection;
   }
   async connect() {
+    if (!this.voice.joinable) {
+      this.responseChannel?.send(
+        `현재 음성 채널(${this.adapter.voiceChannel})에 입장 할 수 없는 상태에요. ㅠㅠ
+음성 권한을 확인해 보거나 방이 꽉 차 있지 않은지 확인해 보세요...`
+      );
+      return;
+    }
     try {
       await this.adapter.join();
       this.responseChannel?.send(
