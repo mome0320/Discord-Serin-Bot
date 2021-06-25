@@ -98,7 +98,7 @@ class MusicPlayer {
     }
 
     get totalPage(){
-        Math.ceil(this.playlist.length/10)
+        return Math.ceil(this.playlist.length/10)
     }
 
     get nowPlayingEmbed(){
@@ -110,6 +110,7 @@ class MusicPlayer {
     }
     get playTimeStringFormat(){
         if(this.isPlay) return moment.duration(this.playTimeMilliseconds,'milliseconds').format();
+        return null;
     }
     destroy() {
         this.stopLiveMessage();
