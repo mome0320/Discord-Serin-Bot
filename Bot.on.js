@@ -52,12 +52,13 @@ const InteractionCreate = async function (data) {
   }
 
 const onVoiceServerUpdate = async function (data){
-    if(this._players.get(data.guild_id)?.adapter.sendVoiceServer)
-    this._players.get(data.guild_id)?.adapter.sendVoiceServer(data);
+    if(this._players.get(data.guild_id)?.adapter.sendVoiceServerData)
+    this._players.get(data.guild_id)?.adapter.sendVoiceServerData(data);
 }
 const onVoiceStateUpdate = async function (data){
-    if(this._players.get(data.guild_id)?.adapter.sendVoiceState)
-    this._players.get(data.guild_id)?.adapter.sendVoiceState(data);
+    if(data.user_id !== this.user.id) return;
+    if(this._players.get(data.guild_id)?.adapter.sendVoiceStateData)
+    this._players.get(data.guild_id)?.adapter.sendVoiceStateData(data);
 }
   
 module.exports = {
