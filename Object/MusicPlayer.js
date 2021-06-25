@@ -42,7 +42,7 @@ class MusicPlayer {
         `현재 음성 채널(${this.adapter.voiceChannel})에 입장 할 수 없는 상태에요. ㅠㅠ
 음성 권한을 확인해 보거나 방이 꽉 차 있지 않은지 확인해 보세요...`
       );
-      return;
+      return false;
     }
     try {
       await this.adapter.join();
@@ -51,6 +51,7 @@ class MusicPlayer {
       );
       this.player.on("stateChange", this._onPlayerStateChange.bind(this));
       this.player.on("error", this._onPlayerError.bind(this));
+      return true;
     } catch (e) {
       if (e.message.startsWith("Did not enter state ready within")) {
         this.responseChannel?.send(
@@ -61,6 +62,7 @@ class MusicPlayer {
           `음성 채널(${this.adapter.voiceChannel})에 연결하는 데 실패하었습니다!\n\`${e}\``
         );
       }
+      return false;
     }
   }
 
@@ -69,8 +71,11 @@ class MusicPlayer {
       this.responseChannel?.send(`📂 현재 재생 가능한 음악이 없습니다..`);
       return;
     }
-    if (this.isDead) this.connect();
-    this.player.play(this.nowPlaying.createAudioResource());
+    this.player.play(this.nowPlaying.createAudioResource()); // load audio before
+    if (this.isDead) {
+      const isSuccess = await this.connect();
+      if (!isSuccess) return;
+    }
     if (this.responseChannel) {
       const lastMessage = this.responseChannel.messages.cache.last();
       if (isPlayMessage(lastMessage)) lastMessage.edit(this.nowPlayingEmbed);
