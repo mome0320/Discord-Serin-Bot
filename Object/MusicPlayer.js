@@ -39,10 +39,9 @@ class MusicPlayer {
   async connect() {
     try {
       await this.adapter.join();
-      if (this.responseChannel)
-        this.responseChannel.send(
-          `음성 채널(${this.adapter.voiceChannel})에 정상 연결되었습니다!`
-        );
+      this.responseChannel?.send(
+        `음성 채널(${this.adapter.voiceChannel})에 정상 연결되었습니다!`
+      );
       this.player.on("stateChange", this._onPlayerStateChange.bind(this));
       this.player.on("error", this._onPlayerError.bind(this));
     } catch (e) {
@@ -60,8 +59,7 @@ class MusicPlayer {
 
   async play() {
     if (!this.nowPlaying) {
-      if (this.responseChannel)
-        this.responseChannel.send(`📂 현재 재생 가능한 음악이 없습니다..`);
+      this.responseChannel?.send(`📂 현재 재생 가능한 음악이 없습니다..`);
       return;
     }
     if (this.isDead) this.connect();
@@ -80,10 +78,9 @@ class MusicPlayer {
       this.next();
   }
   _onPlayerError(error) {
-    if (this.responseChannel)
-      this.responseChannel.send(
-        `재생 중 오류가 발생하여 다음 곡을 재생을 시도합니다.. ${error}`
-      );
+    this.responseChannel?.send(
+      `재생 중 오류가 발생하여 다음 곡을 재생을 시도합니다.. ${error}`
+    );
     this.next();
   }
 
@@ -93,10 +90,9 @@ class MusicPlayer {
 
     this.nowPlaying = this.playlist.shift();
     if (!this.nowPlaying) {
-      if (this.responseChannel)
-        this.responseChannel.send(
-          `📂 재생 목록이 비어있습니다! 노래를 넣어주세요.`
-        );
+      this.responseChannel?.send(
+        `📂 재생 목록이 비어있습니다! 노래를 넣어주세요.`
+      );
       return;
     } else {
       this.play();
@@ -149,8 +145,7 @@ class MusicPlayer {
   }
   _destroyFromAdapter() {
     this.stopLiveMessage();
-    if (this.responseChannel)
-      this.responseChannel.send(`🛑 음악을 종료합니다.`);
+    this.responseChannel?.send(`🛑 음악을 종료합니다.`);
   }
 
   get durationLabel() {
