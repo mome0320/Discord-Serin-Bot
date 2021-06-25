@@ -5,6 +5,7 @@
   "dependencies": {
     "@discordjs/opus": "^0.5.0",
     "@discordjs/voice": "^0.5.0",
+    "babel-eslint": "^10.1.0",
     "discord.js": "github:discordjs/discord.js",
     "dokdo": "github:wonderlandpark/dokdo",
     "eslint": "^7.29.0",

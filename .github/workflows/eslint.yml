@@ -1,0 +1,29 @@
+name: ESLint
+on: push
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Git Repository
+      uses: actions/checkout@v2
+
+    - name: Initialize Node.js
+      uses: actions/setup-node@v2
+
+    - name: Cache Dependencies
+      uses: c-hive/gha-yarn-cache@v1
+
+    - name: Install modules
+      run: yarn
+
+    - name: Run ESLint
+      run: yarn lint
+    
+    - name: Fix with ESLint and Push
+      if: failure()
+      run: |
+        yarn lint:fix
+        git remote set-url origin https://github.com/${{ github.repository }}
+        git commit -am "lint: ESLint fix"
+        git push
