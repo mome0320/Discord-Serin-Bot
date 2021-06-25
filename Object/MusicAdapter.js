@@ -1,4 +1,4 @@
-const {joinVoiceChannel, entersState, VoiceConnectionStatus, createAudioPlayer, createAudioResource} = require('@discordjs/voice');
+const {joinVoiceChannel, entersState, VoiceConnectionStatus, createAudioPlayer} = require('@discordjs/voice');
 
 class VoiceAdapter{
 constructor(music){
@@ -55,8 +55,7 @@ async join(){
     }
 }
 play(input){
-const resource = createAudioResource(input);
-this.player.play(resource);
+this.player.play(input);
 return this.player;
 }
 }
