@@ -39,7 +39,7 @@ class MusicPlayer {
   async connect() {
     if (!this.voice.joinable) {
       this.responseChannel?.send(
-        `현재 음성 채널(${this.adapter.voiceChannel})에 입장 할 수 없는 상태에요. ㅠㅠ
+        `현재 음성 채널(${this.voice})에 입장 할 수 없는 상태에요. ㅠㅠ
 음성 권한을 확인해 보거나 방이 꽉 차 있지 않은지 확인해 보세요...`
       );
       return false;
@@ -47,7 +47,7 @@ class MusicPlayer {
     try {
       await this.adapter.join();
       this.responseChannel?.send(
-        `음성 채널(${this.adapter.voiceChannel})에 정상 연결되었습니다!`
+        `음성 채널(${this.voice})에 정상 연결되었습니다!`
       );
       this.player.on("stateChange", this._onPlayerStateChange.bind(this));
       this.player.on("error", this._onPlayerError.bind(this));
@@ -59,7 +59,7 @@ class MusicPlayer {
         );
       } else {
         this.responseChannel?.send(
-          `음성 채널(${this.adapter.voiceChannel})에 연결하는 데 실패하었습니다!\n\`${e}\``
+          `음성 채널(${this.voice})에 연결하는 데 실패하었습니다!\n\`${e}\``
         );
       }
       return false;
@@ -112,14 +112,14 @@ class MusicPlayer {
   }
 
   async skip() {
-    this.adapter.player?.stop(); //stop event call next()
+    this.player?.stop(); //stop event call next()
   }
 
   get isDead() {
     return (
-      !this.adapter.connection ||
-      this.adapter.connection.state.status === "destroyed" ||
-      this.adapter.connection.state.status === "disconnected"
+      !this.connection ||
+      this.connection.state.status === "destroyed" ||
+      this.connection.state.status === "disconnected"
     );
   }
 
