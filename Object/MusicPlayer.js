@@ -60,7 +60,7 @@ class MusicPlayer {
         }
     }
     _onPlayerStateChange(old,now){
-        if(old.status == 'playing'&&now.status == 'idle') this.next();
+        if((old.status == 'playing'||old.status == 'pause')&&now.status == 'idle') this.next();
     }
     _onPlayerError(error){
         if(this.responseChannel) this.responseChannel.send(`재생 중 오류가 발생하여 다음 곡을 재생을 시도합니다.. ${error}`);
