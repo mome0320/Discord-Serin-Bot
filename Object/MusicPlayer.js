@@ -71,11 +71,11 @@ class MusicPlayer {
       this.responseChannel?.send(`📂 현재 재생 가능한 음악이 없습니다..`);
       return;
     }
-    this.player.play(this.nowPlaying.createAudioResource()); // load audio before
     if (this.isDead) {
       const isSuccess = await this.connect();
       if (!isSuccess) return;
     }
+    this.player.play(this.nowPlaying.createAudioResource());
     if (this.responseChannel) {
       const lastMessage = this.responseChannel.messages.cache.last();
       if (isPlayMessage(lastMessage)) lastMessage.edit(this.nowPlayingEmbed);
