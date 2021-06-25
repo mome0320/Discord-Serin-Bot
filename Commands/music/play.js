@@ -34,6 +34,7 @@ module.exports = {
 
 async function searchYoutubeVideos(query){
     const filter = await ytsr.getFilters(query).then(target => target.get('Type').get('Video'));
+    if(!filter) return []
     const result = await ytsr(filter.url,{limit: 9});
     return result.items.map(element => {
         return {title:element.title,id: element.id,
