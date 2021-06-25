@@ -127,7 +127,7 @@ class MusicPlayer {
   get nowPlayingEmbed() {
     if (this.nowPlaying)
       return this.nowPlaying.embed.setAuthor("현재 플레이 중인 음악:");
-    return new MessageEmbed().setAuthor("재생할 곡이 없습니다.");
+    else return new MessageEmbed().setAuthor("재생할 곡이 없습니다.");
   }
   get playTimeMilliseconds() {
     return this.isPlay ? this.player.state.playbackDuration : 0;
