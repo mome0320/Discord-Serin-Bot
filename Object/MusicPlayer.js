@@ -35,10 +35,18 @@ class MusicPlayer {
         return this.adapter.connection;
     }
     async connect() {
+        try{
         await this.adapter.join();
         if(this.responseChannel) this.responseChannel.send(`음성 채널(${this.adapter.voiceChannel})에 정상 연결되었습니다!`)
         this.player.on('stateChange',this._onPlayerStateChange.bind(this));
         this.player.on('error',this._onPlayerError.bind(this));
+        }catch(e){
+            if(e.message.startsWith('Did not enter state ready within')){
+                this.responseChannel?.send(`어라? 연결 기다리는 데 데이터가 안 오네요!\n아니면 음성 채널이 전쟁터라서 그런 걸 수도.. (웃음..)`)
+            }else{
+            this.responseChannel?.send(`음성 채널(${this.adapter.voiceChannel})에 연결하는 데 실패하었습니다!\n\`${e}\``)
+            }
+        }
     }
 
     async play(){
