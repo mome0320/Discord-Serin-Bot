@@ -448,18 +448,19 @@ discord-api-types@^0.18.1:
   resolved "https://registry.yarnpkg.com/discord-api-types/-/discord-api-types-0.18.1.tgz#5d08ed1263236be9c21a22065d0e6b51f790f492"
   integrity sha512-hNC38R9ZF4uaujaZQtQfm5CdQO58uhdkoHQAVvMfIL0LgOSZeW575W8H6upngQOuoxWd8tiRII3LLJm9zuQKYg==
 
-"discord.js@github:discordjs/discord.js":
-  version "13.0.0-dev"
-  resolved "https://codeload.github.com/discordjs/discord.js/tar.gz/6d3d00b44577a70e840f0187d6894043677c5329"
+discord.js@^13.0.0-dev.985d4d6a438fc9123264f6a1c600f34fccc1825f:
+  version "13.0.0-dev.985d4d6a438fc9123264f6a1c600f34fccc1825f"
+  resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-13.0.0-dev.985d4d6a438fc9123264f6a1c600f34fccc1825f.tgz#30c771692706955188fc8d6f10f056d3955357c6"
+  integrity sha512-tMPFJOwpcZL9kcWKll1vbuWbx1+d6tnR36EoPn7PQ+VAD+Dqt5+OaVPyW0RmzagozNClKt3YXDEbiGbIWGO22Q==
   dependencies:
     "@discordjs/collection" "^0.1.6"
     "@discordjs/form-data" "^3.0.1"
     "@sapphire/async-queue" "^1.1.2"
+    "@types/ws" "^7.4.4"
     abort-controller "^3.0.0"
+    discord-api-types "^0.18.1"
     node-fetch "^2.6.1"
-    prism-media "^1.2.9"
-    tweetnacl "^1.0.3"
-    ws "^7.4.5"
+    ws "^7.4.6"
 
 doctrine@^3.0.0:
   version "3.0.0"
@@ -468,9 +469,9 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
-"dokdo@github:mome0320/dokdo#support-djs-v13":
+"dokdo@https://github.com/mome0320/dokdo#support-djs-v13":
   version "0.3.0"
-  resolved "https://codeload.github.com/mome0320/dokdo/tar.gz/66b11a0d62bd55f3ed2de9f573278dbe91dfc19d"
+  resolved "https://github.com/mome0320/dokdo#66b11a0d62bd55f3ed2de9f573278dbe91dfc19d"
   dependencies:
     dayjs "^1.9.6"
     node-fetch "^2.6.1"
@@ -1083,7 +1084,7 @@ prettier@^2.3.1:
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.3.1.tgz#76903c3f8c4449bc9ac597acefa24dc5ad4cbea6"
   integrity sha512-p+vNbgpLjif/+D+DwAZAbndtRrR0md0MwfmOVN9N+2RgyACMT+7tfaRnT+WDPkqnuVwleyuBIG2XBxKDme3hPA==
 
-prism-media@^1.2.9, prism-media@^1.3.1:
+prism-media@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/prism-media/-/prism-media-1.3.1.tgz#418acd2b122bedea2e834056d678f9a5ad2943ae"
   integrity sha512-nyYAa3KB4qteJIqdguKmwxTJgy55xxUtkJ3uRnOvO5jO+frci+9zpRXw6QZVcfDeva3S654fU9+26P2OSTzjHw==
@@ -1328,11 +1329,6 @@ to-fast-properties@^2.0.0:
   resolved "https://registry.yarnpkg.com/to-fast-properties/-/to-fast-properties-2.0.0.tgz#dc5e698cbd079265bc73e0377681a4e4e83f616e"
   integrity sha1-3F5pjL0HkmW8c+A3doGk5Og/YW4=
 
-tweetnacl@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-1.0.3.tgz#ac0af71680458d8a6378d0d0d050ab1407d35596"
-  integrity sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==
-
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/type-check/-/type-check-0.4.0.tgz#07b8203bfa7056c0657050e3ccd2c37730bab8f1"
@@ -1386,7 +1382,7 @@ wrappy@1:
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
 
-ws@^7.4.4, ws@^7.4.5:
+ws@^7.4.4, ws@^7.4.6:
   version "7.5.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.0.tgz#0033bafea031fb9df041b2026fc72a571ca44691"
   integrity sha512-6ezXvzOZupqKj4jUqbQ9tXuJNo+BR2gU8fFRk3XCP3e0G6WT414u5ELe6Y0vtp7kmSJ3F7YWObSNr1ESsgi4vw==
