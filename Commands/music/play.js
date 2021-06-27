@@ -1,4 +1,4 @@
-const { MessageButton } = require("discord.js");
+const { MessageButton, MessageActionRow } = require("discord.js");
 const ytsr = require("ytsr");
 module.exports = {
   name: "재생",
@@ -29,11 +29,21 @@ module.exports = {
       custom_id: `CANCEL|`,
       label: "취소",
     });
-    const components = [
-      { type: 1, components: queueAddButton.slice(0, 5) },
-      { type: 1, components: [queueAddButton.slice(5, 9), cancelButton] },
-    ].filter((r) => r.components.length > 0);
-    msg.channel.send({ content, components });
+    const components = [];
+    for (let i = 0; i < queueAddMessageButtons.length; i += 5) {
+      const actionRow = new MessageActionRow();
+      actionRow.addComponents(queueAddMessageButtons.slice(i, i + 5));
+      components.push(actionRow);
+    }
+    const lastActionRow = components.slice(-1).pop();
+    if (lastActionRow) {
+      lastActionRow.addComponents(cancelMessageButton);
+    } else {
+      components.push(
+        new MessageActionRow({ components: [cancelMessageButton] })
+      );
+    }
+    msg.reply({ content, components });
     return;
   },
 };
