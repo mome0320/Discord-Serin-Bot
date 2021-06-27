@@ -6,7 +6,7 @@
     "@discordjs/opus": "^0.5.0",
     "@discordjs/voice": "^0.5.0",
     "babel-eslint": "^10.1.0",
-    "discord.js": "^13.0.0-dev.985d4d6a438fc9123264f6a1c600f34fccc1825f",
+    "discord.js": "https://github.com/discordjs/discord.js#master",
     "dokdo": "https://github.com/mome0320/dokdo#support-djs-v13",
     "eslint": "^7.29.0",
     "eslint-config-prettier": "^8.3.0",
