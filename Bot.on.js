@@ -1,4 +1,4 @@
-const { version, WebhookClient } = require("discord.js");
+const { version } = require("discord.js");
 
 const onReady = async function () {
   this.user.setActivity(`뮤직 [${this.prefix}도움말]`);
@@ -29,28 +29,21 @@ const onMessage = async function (msg) {
   });
 };
 const buttonCommands = require("./ButtonCommands");
-const InteractionCreate = async function (data) {
-  if (data.type == 3) {
-    const channel = this.channels.cache.get(data.channel_id);
-    const buttonMessage = channel.messages.add(data.message, false);
-    const requestor = channel.guild.members.add(data.member, false);
-    const cmd = data.data.custom_id.split("|");
-    const followupWebhook = new WebhookClient(data.application_id, data.token);
+const onIntegration = async function (interaction) {
+  if (interaction.isButton) {
+    const { member, message, customID } = interaction;
+    const [cmdName, ...args] = customID.split("|");
+    const commmandExcutor = buttonCommands[cmdName];
 
-    const commandsName = Object.keys(buttonCommands);
-    if (!commandsName.includes(cmd[0])) return;
-    const callbackResult = await buttonCommands[cmd[0]].execute({
+    if (!commmandExcutor) return;
+    commmandExcutor.execute({
       bot: this,
-      cmd,
-      msg: buttonMessage,
-      excutor: requestor,
-      followupWebhook,
+      cmdName,
+      args,
+      msg: message,
+      executor: member,
+      interaction,
     });
-    if (callbackResult)
-      this.api.interactions[data.id][data.token]
-        .callback()
-        .post({ data: callbackResult });
-    return;
   }
 };
 
@@ -66,11 +59,11 @@ const onVoiceStateUpdate = async function (data) {
 
 module.exports = {
   raw: {
-    INTERACTION_CREATE: InteractionCreate,
     VOICE_SERVER_UPDATE: onVoiceServerUpdate,
     VOICE_STATE_UPDATE: onVoiceStateUpdate,
   },
   normal: {
+    interaction: onIntegration,
     ready: onReady,
     message: onMessage,
   },

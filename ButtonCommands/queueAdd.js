@@ -2,16 +2,6 @@ const Music = require("../Object/Music");
 const MusicPlayer = require("../Object/MusicPlayer");
 const ytdl = require("ytdl-core");
 
-const reply = (msg) => {
-  return {
-    type: 4,
-    data: {
-      content: msg,
-      flags: 64,
-    },
-  };
-};
-
 const makePlayer = (guild, voiceChannel) => {
   const client = guild.client;
   let player = client._players.get(guild.id);
@@ -40,26 +30,33 @@ const intertSong = async ({ player, songID, requestor, webhook }) => {
 
 module.exports = {
   name: "곡추가",
-  execute: async ({ cmd, msg, excutor, followupWebhook }) => {
-    if (!msg.mentions.has(excutor.id))
-      return reply("명령어 실행자가 아닙니다.");
-    if (!excutor.voice.channel) return reply("보이스 채널에 접속하세요.");
-    const player = makePlayer(msg.guild, excutor.voice.channel);
-    if (excutor.voice.channel.id !== player.voice.id)
-      return reply("봇이 입장한 보이스 채널에 접속하세요.");
+  execute: async ({ args, msg, executor, interaction }) => {
+    if (!msg.mentions.has(executor.id))
+      return interaction.reply({
+        content: "명령어 실행자가 아닙니다.",
+        ephemeral: true,
+      });
+    if (!executor.voice.channel)
+      return interaction.reply({
+        content: "보이스 채널에 접속하세요",
+        ephemeral: true,
+      });
+    const player = makePlayer(msg.guild, executor.voice.channel);
+    if (executor.voice.channel.id !== player.voice.id)
+      return interaction.reply({
+        content: "봇이 입장한 보이스 채널에 접속하세요.",
+        ephemeral: true,
+      });
     player.responseChannel = msg.channel;
     intertSong({
       player,
-      songID: cmd[1],
-      requestor: excutor,
-      webhook: followupWebhook,
+      songID: args[0],
+      requestor: executor,
+      webhook: interaction.followup,
     });
-    return {
-      type: 7,
-      data: {
-        content: `💽  <@${excutor.id}> 님이 음악을 선택하셨습니다.`,
-        components: [],
-      },
-    };
+    interaction.update({
+      content: `💽  ${executor} 님이 음악을 선택하셨습니다.`,
+      components: [],
+    });
   },
 };
