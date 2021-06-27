@@ -1,7 +1,7 @@
 const moment = require("moment");
 const momentDurationFormatSetup = require("moment-duration-format");
 momentDurationFormatSetup(moment);
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 const VoiceAdapter = require("./MusicAdapter");
 const REPEAT = {
   NONE: 0,
@@ -195,48 +195,41 @@ class MusicPlayer {
 
   startLiveMessage(message) {
     if (this.interval) clearInterval(this.interval);
-    const editMessage = async (data) =>
-      this.client.api.channels[this.liveMessage.channel.id].messages[
-        this.liveMessage.id
-      ]
-        .patch({ data })
-        .then((data) => this.liveMessage.channel.messages.add(data));
-
     if (this.liveMessage && !this.liveMessage.deleted)
-      editMessage({ embed: this.nowPlayingEmbed.toJSON(), components: [] });
+      this.liveMessage.edit({ embeds: [this.nowPlayingEmbed], components: [] });
 
     this.liveMessage = message;
     this.interval = setInterval(() => {
       if (this.liveMessage == null || this.liveMessage.deleted)
         return this.stopLiveMessage();
 
-      const embed = this.nowPlayingEmbed.toJSON();
-      const button = [
-        {
-          type: 2,
-          style: 4,
-          custom_id: "LIVEMSG|shift_jump_5",
-          label: "- 5초",
-          disabled: true,
-        },
-        {
-          type: 2,
-          style: 2,
-          custom_id: "LIVEMSG|togglePause",
-          label: this.durationLabel,
-          emoji: this.playbuttonEmoji,
-        },
-        {
-          type: 2,
-          style: 3,
-          custom_id: "LIVEMSG|jump_5",
-          label: "+ 5초",
-          disabled: true,
-        },
-      ];
-
-      const data = { components: [{ type: 1, components: button }], embed };
-      editMessage(data);
+      const backButton = new MessageButton({
+        style: 4,
+        custom_id: "LIVEMSG|shift_jump_5",
+        label: "- 5초",
+        disabled: true,
+      });
+      const playButton = new MessageButton({
+        style: 2,
+        custom_id: "LIVEMSG|togglePause",
+        label: this.durationLabel,
+        emoji: this.playbuttonEmoji,
+      });
+      const jumpButton = new MessageButton({
+        style: 3,
+        custom_id: "LIVEMSG|jump_5",
+        label: "+ 5초",
+        disabled: true,
+      });
+      const actionRow = new MessageActionRow().addComponents([
+        backButton,
+        playButton,
+        jumpButton,
+      ]);
+      this.liveMessage.edit({
+        components: [actionRow],
+        embeds: [this.nowPlayingEmbed],
+      });
     }, 1500);
   }
 
