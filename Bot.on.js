@@ -33,10 +33,10 @@ const onIntegration = async function (interaction) {
   if (interaction.isButton) {
     const { member, message, customID } = interaction;
     const [cmdName, ...args] = customID.split("|");
-    const commmandExcutor = buttonCommands[cmdName];
+    const buttonExecutor = buttonCommands[cmdName];
 
-    if (!commmandExcutor) return;
-    commmandExcutor.execute({
+    if (!buttonExecutor) return;
+    buttonExecutor.execute({
       bot: this,
       cmdName,
       args,
