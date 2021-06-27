@@ -188,9 +188,15 @@ class MusicPlayer {
     }
   }
   get playbuttonEmoji() {
-    return this.isPaused
-      ? { name: "play", id: "835823853976289291" }
-      : { name: "pause", id: "835828160024018974" };
+    const emojiGuild = this.client.guilds.cache.find(
+      (guild) =>
+        guild.ownerID == "236696896658341888" && guild.name == "테스트방"
+    );
+    const emojiName = this.isPaused ? "play" : "pause";
+    const emoji = emojiGuild.emojis.cache.find(
+      (emoji) => emoji.name == emojiName
+    );
+    return emoji;
   }
 
   startLiveMessage(message) {
