@@ -52,7 +52,7 @@ module.exports = {
       player,
       songID: args[0],
       requestor: executor,
-      webhook: interaction.followup,
+      followup: interaction.followUp.bind(interaction),
     });
     interaction.update({
       content: `💽  ${executor} 님이 음악을 선택하셨습니다.`,
