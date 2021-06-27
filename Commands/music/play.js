@@ -1,4 +1,6 @@
+const { MessageButton } = require("discord.js");
 const ytsr = require("ytsr");
+const { splitButtons } = require("../../utils/componentUtil");
 module.exports = {
   name: "재생",
   execute: async ({ msg, bot, args }) => {
@@ -8,38 +10,31 @@ module.exports = {
     const searchResult = await searchYoutubeVideos(args);
     if (searchResult.length <= 0) return msg.reply("검색 결과가 없습니다.");
 
-    const musicStringList = searchResult.map(
+    const SerchResultStrings = searchResult.map(
       (vid, i) => `${i + 1}. [${vid.title}](${vid.duration})`
     );
     const content =
       "💽 재생 할 곡의 번호를 눌러주세요.\n" +
-      `\`\`\`md\n# 검색 결과:\n${musicStringList.join("\n")}\n\`\`\``;
+      `\`\`\`md\n# 검색 결과:\n${SerchResultStrings.join("\n")}\n\`\`\``;
 
-    const buttons = searchResult.map((vid, i) => {
-      return {
-        type: 2,
-        style: 2,
-        custom_id: `QUEUEADD|${vid.id}`,
-        label: `${i + 1}`,
-      };
+    const queueAddMessageButtons = searchResult.map(
+      (video, index) =>
+        new MessageButton({
+          style: 2,
+          custom_id: `QUEUEADD|${video.id}`,
+          label: index + 1,
+        })
+    );
+    const cancelMessageButton = new MessageButton({
+      style: 4,
+      custom_id: `CANCEL`,
+      label: "취소",
     });
-    buttons.push({ type: 2, style: 4, custom_id: `CANCEL|`, label: "취소" });
-    const components = [
-      { type: 1, components: buttons.slice(0, 5) },
-      { type: 1, components: buttons.slice(5, 10) },
-    ].filter((r) => r.components.length > 0);
-
-    bot.api.channels[msg.channel.id].messages
-      .post({
-        data: {
-          content,
-          components,
-          message_reference: { message_id: msg.id },
-        },
-      })
-      .then((data) => {
-        msg.channel.messages.add(data, true);
-      });
+    const components = splitButtons([
+      ...queueAddMessageButtons,
+      cancelMessageButton,
+    ]);
+    msg.reply({ content, components });
     return;
   },
 };
