@@ -12,12 +12,12 @@ const makePlayer = (guild, voiceChannel) => {
   return player;
 };
 
-const intertSong = async ({ player, songID, requestor, webhook }) => {
+const intertSong = async ({ player, songID, requestor, followup }) => {
   const musicData = await ytdl.getBasicInfo(songID);
   const music = new Music(musicData, requestor);
   player.playlist.push(music);
   if (player.isPlay) {
-    webhook.send({
+    followup({
       embeds: [
         music.embed.setAuthor("📥 노래 추가되었습니다.").setColor("BLUE"),
       ],
