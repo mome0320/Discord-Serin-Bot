@@ -19,14 +19,12 @@ module.exports = {
     const queueAddButton = searchResult.map(
       (video, i) =>
         new MessageButton({
-          type: 2,
           style: 2,
           custom_id: `QUEUEADD|${video.id}`,
           label: `${i + 1}`,
         })
     );
-    const cancelButton = new MessageButton({
-      type: 2,
+    const cancelMessageButton = new MessageButton({
       style: 4,
       custom_id: `CANCEL|`,
       label: "취소",
