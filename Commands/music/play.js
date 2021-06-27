@@ -1,5 +1,6 @@
-const { MessageButton, MessageActionRow } = require("discord.js");
+const { MessageButton } = require("discord.js");
 const ytsr = require("ytsr");
+const { splitButtons } = require("../../utils/componentUtil");
 module.exports = {
   name: "재생",
   execute: async ({ msg, bot, args }) => {
@@ -29,20 +30,10 @@ module.exports = {
       custom_id: `CANCEL`,
       label: "취소",
     });
-    const components = [];
-    for (let i = 0; i < queueAddMessageButtons.length; i += 5) {
-      const actionRow = new MessageActionRow();
-      actionRow.addComponents(queueAddMessageButtons.slice(i, i + 5));
-      components.push(actionRow);
-    }
-    const lastActionRow = components.slice(-1).pop();
-    if (lastActionRow) {
-      lastActionRow.addComponents(cancelMessageButton);
-    } else {
-      components.push(
-        new MessageActionRow({ components: [cancelMessageButton] })
-      );
-    }
+    const components = splitButtons([
+      ...queueAddMessageButtons,
+      cancelMessageButton,
+    ]);
     msg.reply({ content, components });
     return;
   },
