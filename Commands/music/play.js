@@ -1,3 +1,4 @@
+const { MessageButton } = require("discord.js");
 const ytsr = require("ytsr");
 module.exports = {
   name: "재생",
@@ -15,31 +16,26 @@ module.exports = {
       "💽 재생 할 곡의 번호를 눌러주세요.\n" +
       `\`\`\`md\n# 검색 결과:\n${musicStringList.join("\n")}\n\`\`\``;
 
-    const buttons = searchResult.map((vid, i) => {
-      return {
-        type: 2,
-        style: 2,
-        custom_id: `QUEUEADD|${vid.id}`,
-        label: `${i + 1}`,
-      };
+    const queueAddButton = searchResult.map(
+      (video, i) =>
+        new MessageButton({
+          type: 2,
+          style: 2,
+          custom_id: `QUEUEADD|${video.id}`,
+          label: `${i + 1}`,
+        })
+    );
+    const cancelButton = new MessageButton({
+      type: 2,
+      style: 4,
+      custom_id: `CANCEL|`,
+      label: "취소",
     });
-    buttons.push({ type: 2, style: 4, custom_id: `CANCEL|`, label: "취소" });
     const components = [
-      { type: 1, components: buttons.slice(0, 5) },
-      { type: 1, components: buttons.slice(5, 10) },
+      { type: 1, components: queueAddButton.slice(0, 5) },
+      { type: 1, components: [queueAddButton.slice(5, 9), cancelButton] },
     ].filter((r) => r.components.length > 0);
-
-    bot.api.channels[msg.channel.id].messages
-      .post({
-        data: {
-          content,
-          components,
-          message_reference: { message_id: msg.id },
-        },
-      })
-      .then((data) => {
-        msg.channel.messages.add(data, true);
-      });
+    msg.channel.send({ content, components });
     return;
   },
 };
