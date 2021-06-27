@@ -17,11 +17,8 @@
     "node-fetch": "^2.6.1",
     "prettier": "^2.3.1",
     "sodium": "^3.0.2",
-    "ytdl-core": "github:mome0320/node-ytdl-core",
+    "ytdl-core": "^4.8.3",
     "ytsr": "^3.2.1"
-  },
-  "resolutions": {
-    "dokdo/discord.js": "github:discordjs/discord.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
