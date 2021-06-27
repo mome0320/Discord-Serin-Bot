@@ -17,9 +17,7 @@ class VoiceAdapter {
   voiceChannelChange(channel) {
     this.voiceChannel = channel;
     if (this.connection) {
-      const config = this.connection.joinConfig;
-      config.channelId = this.voiceChannel.id;
-      this.connection.rejoin(config);
+      this.connection.rejoin({ channelId: this.voiceChannel.id });
     }
   }
 
