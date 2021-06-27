@@ -16,6 +16,6 @@ module.exports = {
       description: playListString.join("\n"),
       title: "🗃️ 재생 목록",
     });
-    msg.channel.send(embed);
+    msg.channel.send({ embeds: [embed] });
   },
 };

@@ -78,8 +78,12 @@ class MusicPlayer {
     this.player.play(this.nowPlaying.createAudioResource());
     if (this.responseChannel) {
       const lastMessage = this.responseChannel.messages.cache.last();
-      if (isPlayMessage(lastMessage)) lastMessage.edit(this.nowPlayingEmbed);
-      else this.responseChannel.send(this.nowPlayingEmbed);
+      if (isPlayMessage(lastMessage))
+        lastMessage.edit({ embeds: [this.nowPlayingEmbed] });
+      else
+        this.responseChannel.send({
+          embeds: [this.nowPlayingEmbed],
+        });
     }
   }
   _onPlayerStateChange(old, now) {

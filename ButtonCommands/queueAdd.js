@@ -27,9 +27,11 @@ const intertSong = async ({ player, songID, requestor, webhook }) => {
   const music = new Music(musicData, requestor);
   player.playlist.push(music);
   if (player.isPlay) {
-    webhook.send(
-      music.embed.setAuthor("📥 노래 추가되었습니다.").setColor("BLUE")
-    );
+    webhook.send({
+      embeds: [
+        music.embed.setAuthor("📥 노래 추가되었습니다.").setColor("BLUE"),
+      ],
+    });
   } else {
     player.next();
   }
