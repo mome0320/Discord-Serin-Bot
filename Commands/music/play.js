@@ -9,24 +9,24 @@ module.exports = {
     const searchResult = await searchYoutubeVideos(args);
     if (searchResult.length <= 0) return msg.reply("검색 결과가 없습니다.");
 
-    const musicStringList = searchResult.map(
+    const SerchResultStrings = searchResult.map(
       (vid, i) => `${i + 1}. [${vid.title}](${vid.duration})`
     );
     const content =
       "💽 재생 할 곡의 번호를 눌러주세요.\n" +
-      `\`\`\`md\n# 검색 결과:\n${musicStringList.join("\n")}\n\`\`\``;
+      `\`\`\`md\n# 검색 결과:\n${SerchResultStrings.join("\n")}\n\`\`\``;
 
-    const queueAddButton = searchResult.map(
-      (video, i) =>
+    const queueAddMessageButtons = searchResult.map(
+      (video, index) =>
         new MessageButton({
           style: 2,
           custom_id: `QUEUEADD|${video.id}`,
-          label: `${i + 1}`,
+          label: index + 1,
         })
     );
     const cancelMessageButton = new MessageButton({
       style: 4,
-      custom_id: `CANCEL|`,
+      custom_id: `CANCEL`,
       label: "취소",
     });
     const components = [];
