@@ -1,18 +1,9 @@
-const { Client, Collection, MessageEmbed } = require("discord.js");
+const { Client, Collection } = require("discord.js");
 const { loadAllCommands } = require("./load/command");
 const events = require("./Bot.on");
 const Dokdo = require("dokdo");
-const fetch = require("node-fetch");
-const DebugNoPerm = async (msg) => {
-  const { url } = await fetch("https://api.waifu.pics/sfw/highfive").then(
-    (data) => data.json()
-  );
-  const cuteImage = new MessageEmbed({ image: { url } });
-  msg.reply(
-    "와! 세린! 아시는구나!\n그런데 덧붙이는 비밀의 명령어는 주인 말만 들어요..\n대신 저랑 하이파이브 하실레요?",
-    cuteImage
-  );
-};
+const { debugNoPerm } = require("./utils/util");
+
 class Bot extends Client {
   constructor(options) {
     super(options);
@@ -24,7 +15,7 @@ class Bot extends Client {
 
   async setup() {
     this.debug = new Dokdo(this, {
-      noPerm: DebugNoPerm,
+      noPerm: debugNoPerm,
       aliases: ["제발"],
       prefix: "세린아 ",
     });
