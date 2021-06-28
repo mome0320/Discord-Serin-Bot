@@ -1,6 +1,7 @@
 const MusicPlayer = require("../Object/MusicPlayer");
 const Music = require("../Object/Music");
 const ytdl = require("ytdl-core");
+const ytpl = require("ytpl");
 
 const createPlayer = (guild, voiceChannel) => {
   const client = guild.client;
@@ -33,4 +34,11 @@ const intertSong = async ({
   return;
 };
 
-module.exports = { intertSong, createPlayer };
+async function getYoutubePlaylist(playlistID, requestor) {
+  const playlist = await ytpl(playlistID);
+  if (playlist.items) {
+    return playlist.items.map((video) => new Music(video, requestor));
+  } else return [];
+}
+
+module.exports = { intertSong, createPlayer, getYoutubePlaylist };

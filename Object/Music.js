@@ -8,10 +8,12 @@ const { MessageEmbed } = require("discord.js");
 class Music {
   constructor(info, requestor) {
     this.requestor = requestor;
-    this.id = info.player_response.videoDetails.videoId;
-    this.title = info.player_response.videoDetails.title;
-    this.thumbnail = info.videoDetails.thumbnails[0].url;
-    this.seconds = info.player_response.videoDetails.lengthSeconds;
+    this.id = info.id || info.player_response.videoDetails.videoId;
+    this.title = info.title || info.player_response.videoDetails.title;
+    this.thumbnail =
+      info.thumbnails?.[0].url || info.videoDetails.thumbnails[0].url;
+    this.seconds =
+      info.durationSec || info.player_response.videoDetails.lengthSeconds;
   }
 
   toString() {

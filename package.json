@@ -17,6 +17,7 @@
     "prettier": "^2.3.1",
     "sodium": "^3.0.2",
     "ytdl-core": "^4.8.3",
+    "ytpl": "^2.2.1",
     "ytsr": "^3.2.1"
   },
   "peerDependencies": {
