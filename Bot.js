@@ -17,7 +17,7 @@ class Bot extends Client {
     this.debug = new Dokdo(this, {
       noPerm: debugNoPerm,
       aliases: ["제발"],
-      prefix: "세린아 ",
+      prefix: this.prefix,
     });
     await this._loadCommands();
     this._listenEvents();
