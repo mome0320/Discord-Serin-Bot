@@ -21,6 +21,10 @@ const intertSong = async ({
 }) => {
   const musicData = await ytdl.getBasicInfo(songID);
   if (!musicData) return sendMessage("음악 정보를 불러올 수 없습니다!");
+  const music = new Music(musicData.videoDetails, {
+    requestor,
+    relatedVideos: musicData.related_videos,
+  });
   player.playlist.push(music);
   if (player.isPlay) {
     sendMessage({

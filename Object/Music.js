@@ -6,6 +6,7 @@ const ytdl = require("ytdl-core");
 const { MessageEmbed } = require("discord.js");
 
 class Music {
+  constructor(info, { requestor, relatedVideos } = {}) {
     this.requestor = requestor || null;
     this.id = info.id || info.videoId;
     this.title = info.title;
