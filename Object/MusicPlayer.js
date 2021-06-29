@@ -22,6 +22,7 @@ class MusicPlayer {
     this.responseChannel = null;
     this.liveMessage = null;
     this.interval = null;
+    this.infinitePlay = false;
   }
 
   get voice() {
@@ -104,7 +105,20 @@ class MusicPlayer {
     if (this.nowPlaying && this.mode === REPEAT.ONE) return this.play();
     if (this.mode === REPEAT.ALL) this.playlist.push(this.nowPlaying);
 
-    this.nowPlaying = this.playlist.shift();
+    if (this.playlist.length > 0) {
+      this.nowPlaying = this.playlist.shift();
+    } else if (this.playlist.length <= 0 && this.infinitePlay) {
+      const relatedMusic = await this.nowPlaying.getRelatedMusic({
+        requestor: this.guild.me,
+      });
+      this.nowPlaying = relatedMusic;
+      this.responseChannel?.send(
+        "재생 목록이 비어있어서 심심한데.. 제가 이 음악과 관련된 노래를 틀어드릴게요!"
+      );
+    } else {
+      this.nowPlaying = null;
+    }
+
     if (!this.nowPlaying) {
       this.responseChannel?.send(
         `📂 재생 목록이 비어있습니다! 노래를 넣어주세요.`
