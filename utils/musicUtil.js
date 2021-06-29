@@ -34,11 +34,22 @@ const intertSong = async ({
   return;
 };
 
-async function getYoutubePlaylist(playlistID, requestor) {
-  const playlist = await ytpl(playlistID);
-  if (playlist.items) {
-    return playlist.items.map((video) => new Music(video, requestor));
-  } else return [];
+async function insertYoutubePlaylist({
+  player,
+  playlistID,
+  requestor,
+  sendMessageMethod: sendMessage,
+}) {
+  const musicList = await ytpl(playlistID)
+    .then(
+      (playList) =>
+        playList.items?.map((video) => new Music(video, { requestor })) || []
+    )
+    .catch(() => []); // bypass findPlayListID error.
+  if (musicList <= 0) return sendMessage("재생목록을 불러올 수 없습니다!");
+  player.playlist.push(...musicList);
+  sendMessage(`🗃️ ${musicList.length}개의 곡을 재생 목록에 추가하였습니다.`);
+  if (!player.isPlay) player.next();
 }
 
-module.exports = { intertSong, createPlayer, getYoutubePlaylist };
+module.exports = { intertSong, createPlayer, insertYoutubePlaylist };
