@@ -20,7 +20,7 @@ const intertSong = async ({
   sendMessageMethod: sendMessage,
 }) => {
   const musicData = await ytdl.getBasicInfo(songID);
-  const music = new Music(musicData, requestor);
+  const music = new Music(musicData.videoDetails, requestor);
   player.playlist.push(music);
   if (player.isPlay) {
     sendMessage({
