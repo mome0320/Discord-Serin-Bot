@@ -14,6 +14,7 @@ class Music {
     this.seconds = parseInt(
       info.durationSec || info.lengthSeconds || info.length_seconds
     );
+    this._relatedVideos = relatedVideos || null;
   }
   get thumbnail() {
     return this.thumbnails[0].url;
@@ -40,6 +41,22 @@ class Music {
     return createAudioResource(
       ytdl(this.id, { quality: "highestaudio", highWaterMark: 1 << 25 })
     );
+  }
+  async getRelatedMusicList({ requestor } = {}) {
+    if (!this._relatedVideos) {
+      this._relatedVideos = await ytdl
+        .getBasicInfo(this.id)
+        .then((info) => info.related_videos);
+    }
+    return this._relatedVideos.map(
+      (videoData) => new Music(videoData, requestor)
+    );
+  }
+  async getRelatedMusic({ requestor } = {}) {
+    const songList = await this.getRelatedMusicList({ requestor });
+    const randomPickMusic =
+      songList[Math.floor(Math.random() * songList.length)];
+    return randomPickMusic;
   }
 }
 module.exports = Music;
