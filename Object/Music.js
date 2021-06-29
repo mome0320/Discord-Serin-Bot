@@ -51,7 +51,7 @@ class Music {
         .then((info) => info.related_videos);
     }
     return this._relatedVideos.map(
-      (videoData) => new Music(videoData, requestor)
+      (videoData) => new Music(videoData, { requestor })
     );
   }
   async getRelatedMusic({ requestor } = {}) {
