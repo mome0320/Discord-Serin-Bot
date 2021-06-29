@@ -112,7 +112,7 @@ class MusicPlayer {
         requestor: this.guild.me,
       });
       this.nowPlaying = relatedMusic;
-      this.responseChannel?.send(
+      await this.responseChannel?.send(
         "재생 목록이 비어있어서 심심한데.. 제가 이 음악과 관련된 노래를 틀어드릴게요!"
       );
     } else {
