@@ -6,8 +6,7 @@ const ytdl = require("ytdl-core");
 const { MessageEmbed } = require("discord.js");
 
 class Music {
-  constructor(info, requestor) {
-    this.requestor = requestor;
+    this.requestor = requestor || null;
     this.id = info.id || info.videoId;
     this.title = info.title;
     this.thumbnails = info.thumbnails;
@@ -21,7 +20,9 @@ class Music {
   }
 
   toString() {
-    return `[${this.title}](https://youtu.be/${this.id}) \`${this.duration}\` \`신청자: ${this.requestor.user.tag}\``;
+    return `[${this.title}](https://youtu.be/${this.id}) \`${
+      this.duration
+    }\` \`신청자: ${this.requestor?.user?.tag || "UNKNOWN"}\``;
   }
 
   get duration() {
@@ -34,7 +35,7 @@ class Music {
       title: this.title,
       thumbnail: { url: this.thumbnail },
       url: `https://youtu.be/${this.id}`,
-    }).addField("요청자", `${this.requestor}`);
+    }).addField("요청자", `${this.requestor || "UNKNOWN"}`);
   }
 
   createAudioResource() {
