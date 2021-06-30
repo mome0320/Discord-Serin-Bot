@@ -9,7 +9,7 @@ const debugNoPerm = async (msg) => {
   msg.reply({
     content: `와! 세린! 아시는구나!
 그런데 덧붙이는 비밀의 명령어는 주인 말만 들어요..
-대신 저랑 하이파이브 하실레요?`,
+대신 저랑 하이파이브 하실래요?`,
     embeds: [cuteImageEmbed],
   });
 };
