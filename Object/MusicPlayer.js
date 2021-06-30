@@ -52,6 +52,16 @@ class MusicPlayer {
       );
       this.player.on("stateChange", this._onPlayerStateChange.bind(this));
       this.player.on("error", this._onPlayerError.bind(this));
+      if (this.voice.type === "stage") {
+        const { trySpeakStageChannel } = require("../utils/musicUtil");
+        const isSpeakSuccess = await trySpeakStageChannel(this.guild);
+        if (!isSpeakSuccess) {
+          this.responseChannel?.send(
+            `스테이지 채널에서 말할려고 했는 데... 말할 권한이 없네요..
+제가 말하고 싶어서 손을 들었는데 받아주실레요? 그동안 혼자서 떠들고 있을게요!`
+          );
+        }
+      }
       return true;
     } catch (e) {
       if (e.message.startsWith("Did not enter state ready within")) {

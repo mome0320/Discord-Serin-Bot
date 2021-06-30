@@ -56,4 +56,26 @@ async function insertYoutubePlaylist({
   if (!player.isPlay) player.next();
 }
 
-module.exports = { intertSong, createPlayer, insertYoutubePlaylist };
+async function trySpeakStageChannel(guild) {
+  const voiceState = guild.me.voice;
+  if (voiceState.channel?.type !== "stage")
+    throw Error(
+      `This VoiceChannel is not Stage Channel (type=${voiceState.channel?.type})`
+    );
+  const suppress = voiceState.suppress;
+  if (!suppress) return true;
+  try {
+    await voiceState.setSuppressed(false);
+    return true;
+  } catch (e) {
+    await voiceState.setRequestToSpeak(true);
+    return false;
+  }
+}
+
+module.exports = {
+  intertSong,
+  createPlayer,
+  insertYoutubePlaylist,
+  trySpeakStageChannel,
+};
