@@ -4,12 +4,11 @@ const {
   MessageButton,
 } = require("discord.js");
 const ytsr = require("ytsr");
+const runes = require("runes");
 
 const sliceString = (string, limit) =>
   string.length > limit - 2
-    ? [...string] // it canbe UTF-16 so make Array and slice it.
-        .slice(0, limit - 2)
-        .join("") + ".."
+    ? runes.substr(string, 0, limit - 2) + ".."
     : string;
 
 module.exports = {

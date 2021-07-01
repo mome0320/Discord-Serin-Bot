@@ -15,6 +15,7 @@
     "moment-duration-format": "^2.3.2",
     "node-fetch": "^2.6.1",
     "prettier": "^2.3.1",
+    "runes": "^0.4.3",
     "sodium": "^3.0.2",
     "ytdl-core": "^4.8.3",
     "ytpl": "^2.2.1",
