@@ -1,6 +1,9 @@
-const { MessageButton } = require("discord.js");
+const { MessageSelectMenu, MessageActionRow } = require("discord.js");
 const ytsr = require("ytsr");
-const { splitButtons } = require("../../utils/componentUtil");
+
+const sliceString = (string, limit) =>
+  string.length > limit - 2 ? string.slice(0, limit - 2) + ".." : string;
+
 module.exports = {
   name: "재생",
   execute: async ({ msg, bot, args }) => {
@@ -10,31 +13,19 @@ module.exports = {
     const searchResult = await searchYoutubeVideos(args);
     if (searchResult.length <= 0) return msg.reply("검색 결과가 없습니다.");
 
-    const SerchResultStrings = searchResult.map(
-      (vid, i) => `${i + 1}. [${vid.title}](${vid.duration})`
-    );
-    const content =
-      "💽 재생 할 곡의 번호를 눌러주세요.\n" +
-      `\`\`\`md\n# 검색 결과:\n${SerchResultStrings.join("\n")}\n\`\`\``;
-
-    const queueAddMessageButtons = searchResult.map(
-      (video, index) =>
-        new MessageButton({
-          style: 2,
-          custom_id: `QUEUEADD|${video.id}`,
-          label: index + 1,
-        })
-    );
-    const cancelMessageButton = new MessageButton({
-      style: 4,
-      custom_id: `CANCEL`,
-      label: "취소",
+    const SearchResultMenuOptions = searchResult.map((video) => ({
+      label: `${sliceString(video.title, 25)}`,
+      description: `${video.author.name} \`(${video.duration})\``,
+      value: `${video.id}`,
+    }));
+    const queueSelectMenu = new MessageSelectMenu({
+      customID: "SONGSELECT",
+      options: SearchResultMenuOptions,
     });
-    const components = splitButtons([
-      ...queueAddMessageButtons,
-      cancelMessageButton,
-    ]);
-    msg.reply({ content, components });
+    const actionRow = new MessageActionRow({ components: [queueSelectMenu] });
+    const content = "💽 재생 할 곡을 선택해주세요";
+
+    msg.reply({ content, components: [actionRow] });
     return;
   },
 };
@@ -46,6 +37,11 @@ async function searchYoutubeVideos(query) {
   if (!filter) return [];
   const result = await ytsr(filter.url, { limit: 9 });
   return result.items.map((element) => {
-    return { title: element.title, id: element.id, duration: element.duration };
+    return {
+      title: element.title,
+      id: element.id,
+      duration: element.duration,
+      author: element.author,
+    };
   });
 }

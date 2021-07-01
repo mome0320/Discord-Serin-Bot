@@ -31,14 +31,30 @@ const onMessage = async function (msg) {
   });
 };
 const buttonCommands = require("./ButtonCommands");
+const selectMenuCommands = require("./SelectMenuCommands");
 const onIntegration = async function (interaction) {
-  if (interaction.isButton) {
+  if (interaction.isButton()) {
     const { member, message, customID } = interaction;
     const [cmdName, ...args] = customID.split("|");
     const buttonExecutor = buttonCommands[cmdName];
 
     if (!buttonExecutor) return;
     buttonExecutor.execute({
+      bot: this,
+      cmdName,
+      args,
+      msg: message,
+      executor: member,
+      interaction,
+    });
+  } else if (interaction.isSelectMenu()) {
+    const { member, message } = interaction;
+    const cmdName = interaction.customID;
+    const args = interaction.values.join("&");
+    const selectMenuExecutor = selectMenuCommands[cmdName];
+
+    if (!selectMenuExecutor) return;
+    selectMenuExecutor.execute({
       bot: this,
       cmdName,
       args,
