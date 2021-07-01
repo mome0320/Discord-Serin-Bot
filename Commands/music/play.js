@@ -6,7 +6,11 @@ const {
 const ytsr = require("ytsr");
 
 const sliceString = (string, limit) =>
-  string.length > limit - 2 ? string.slice(0, limit - 2) + ".." : string;
+  string.length > limit - 2
+    ? [...string] // it canbe UTF-16 so make Array and slice it.
+        .slice(0, limit - 2)
+        .join("") + ".."
+    : string;
 
 module.exports = {
   name: "재생",
