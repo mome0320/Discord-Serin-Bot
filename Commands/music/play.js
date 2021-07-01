@@ -1,4 +1,4 @@
-const { MessageSelectMenu, MessageActionRow } = require("discord.js");
+const { MessageSelectMenu, MessageActionRow, MessageButton } = require("discord.js");
 const ytsr = require("ytsr");
 
 const sliceString = (string, limit) =>
@@ -22,10 +22,20 @@ module.exports = {
       customID: "SONGSELECT",
       options: SearchResultMenuOptions,
     });
-    const actionRow = new MessageActionRow({ components: [queueSelectMenu] });
+    const cancelButton = new MessageButton({
+      customID: "CANCEL",
+      style: "DANGER",
+      label: "취소",
+    });
+    const selectMenuActionRow = new MessageActionRow({
+      components: [queueSelectMenu],
+    });
+    const buttonRow = new MessageActionRow({
+      components: [cancelButton],
+    })
     const content = "💽 재생 할 곡을 선택해주세요";
 
-    msg.reply({ content, components: [actionRow] });
+    msg.reply({ content, components: [selectMenuActionRow, buttonRow] });
     return;
   },
 };
