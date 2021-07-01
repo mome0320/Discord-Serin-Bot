@@ -470,7 +470,7 @@ doctrine@^3.0.0:
 
 "dokdo@https://github.com/mome0320/dokdo#support-djs-v13":
   version "0.3.0"
-  resolved "https://github.com/mome0320/dokdo#1b495268daa00410d6fbd238f69aef3bde95f05c"
+  resolved "https://github.com/mome0320/dokdo#7da9e08a604ff0ff805693d408bb9e1261213337"
   dependencies:
     dayjs "^1.9.6"
     node-fetch "^2.6.1"
