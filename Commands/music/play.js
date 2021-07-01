@@ -1,4 +1,8 @@
-const { MessageSelectMenu, MessageActionRow, MessageButton } = require("discord.js");
+const {
+  MessageSelectMenu,
+  MessageActionRow,
+  MessageButton,
+} = require("discord.js");
 const ytsr = require("ytsr");
 
 const sliceString = (string, limit) =>
@@ -32,7 +36,7 @@ module.exports = {
     });
     const buttonRow = new MessageActionRow({
       components: [cancelButton],
-    })
+    });
     const content = "💽 재생 할 곡을 선택해주세요";
 
     msg.reply({ content, components: [selectMenuActionRow, buttonRow] });
