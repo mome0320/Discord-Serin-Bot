@@ -7,8 +7,10 @@ const onReady = async function () {
 };
 
 const onMessage = async function (msg) {
-  this.debug.run(msg);
   if (msg.author.bot) return;
+  this.debug.run(msg);
+  if (msg.content == `${this.prefix}나 권한 없어`)
+    return this.debug.options.noPerm(msg);
   if (!msg.content.startsWith(this.prefix)) return;
 
   const input = msg.content.slice(this.prefix.length).trim();
