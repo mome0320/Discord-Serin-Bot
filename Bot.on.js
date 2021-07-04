@@ -81,8 +81,8 @@ module.exports = {
     VOICE_STATE_UPDATE: onVoiceStateUpdate,
   },
   normal: {
-    interaction: onIntegration,
+    interactionCreate: onIntegration,
     ready: onReady,
-    message: onMessage,
+    messageCreate: onMessage,
   },
 };
