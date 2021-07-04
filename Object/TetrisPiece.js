@@ -12,8 +12,8 @@ class TetrisPiece {
       [1, 1, 1],
       [0, 0, 0],
     ];
-    this.y = 0;
     this.x = 0;
+    this.y = 0;
     this.set();
   }
 
@@ -23,19 +23,19 @@ class TetrisPiece {
         const PosY = this.y + y;
         const PosX = this.x + x;
         if (value > 0) {
-          if (PosY < 0) return;
+          if (PosY < 0) return; //위는 상관 없음. 무시하세요.
           this.ctx.grid[PosY][PosX] = 1;
         }
       })
     );
   }
   remove() {
-    this.shape.forEach((row, y) =>
-      row.forEach((value, x) => {
-        const PosY = this.y + y;
-        const PosX = this.x + x;
+    this.shape.forEach((row, dy) =>
+      row.forEach((value, dx) => {
+        const PosX = this.x + dx;
+        const PosY = this.y + dy;
         if (value > 0) {
-          if (y < 0) return;
+          if (PosY < 0) return; // 위는 상관 없음. 무시하세요.
           this.ctx.grid[PosY][PosX] = 0;
         }
       })
@@ -48,25 +48,25 @@ class TetrisPiece {
     this.set();
   }
 
-  rotate() {
+  rotate({ repeat = 1 } = {}) {
     this.remove();
     // 문송합니다. 연산 결과를 사용함. 결과: x = -y; y = x
     // https://gamedev.stackexchange.com/questions/17974/how-to-rotate-blocks-in-tetris
-
     // x = y , y = x;
-    for (let y = 0; y < this.shape.length; ++y) {
-      for (let x = 0; x < y; ++x) {
-        [this.shape[x][y], this.shape[y][x]] = [
-          this.shape[y][x],
-          this.shape[x][y],
-        ];
+    while (repeat > 0) {
+      for (let y = 0; y < this.shape.length; ++y) {
+        for (let x = 0; x < y; ++x) {
+          [this.shape[x][y], this.shape[y][x]] = [
+            this.shape[y][x],
+            this.shape[x][y],
+          ];
+        }
       }
+      // x = -y 이므로 리버스.
+      this.shape.forEach((row) => row.reverse());
+      repeat--;
     }
-
-    // x = -y 이므로 리버스.
-    this.shape.forEach((row) => row.reverse());
     this.set();
-    return this.shape;
   }
 }
 
