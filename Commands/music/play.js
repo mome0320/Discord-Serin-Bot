@@ -22,7 +22,9 @@ module.exports = {
 
     const SearchResultMenuOptions = searchResult.map((video) => ({
       label: `${sliceString(video.title, 25)}`,
-      description: `${video.author.name} \`(${video.duration})\``,
+      description: `${sliceString(video.author.name, 40)} \`(${
+        video.duration
+      })\``,
       value: `${video.id}`,
     }));
     const queueSelectMenu = new MessageSelectMenu({
