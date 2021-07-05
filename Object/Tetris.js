@@ -13,11 +13,9 @@ class Tetris {
   initGrid() {
     return Array.from({ length: this.row }, () => Array(this.column).fill(0));
   }
-
   get viewGridHuman() {
-    return this.grid.map((row) =>
-      row.map((value) => (value > 0 ? "🟦" : "⬛")).join("")
-    );
+    const color = ["⬛", "🟧", "🟦", "🟥", "🟩", "🟫", "🟨", "🟪"];
+    return this.grid.map((row) => row.map((value) => color[value]).join(""));
   }
 
   render() {
@@ -93,7 +91,9 @@ class Tetris {
     this.nowPiece.place();
     if (dropResult) {
       if (dropResult == "gameOver") this.isEnd = true;
-      else if (dropResult == "newPiece") this.nowPiece = new TetrisPiece(this);
+      else if (dropResult == "newPiece") {
+        this.nowPiece = new TetrisPiece(this);
+      }
     }
     this.resetQueue();
   }

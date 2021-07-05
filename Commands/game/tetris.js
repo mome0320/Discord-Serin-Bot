@@ -5,7 +5,19 @@ module.exports = {
   name: "테트리스",
   execute: async ({ bot, msg }) => {
     if (bot._tetris.has(msg.channel.id)) {
-      msg.reply("이미 이 채널에서 게임이 실행 중입니다.");
+      const instance = bot._tetris.get(msg.channel.id);
+      const link = new MessageButton()
+        .setURL(instance.message.url)
+        .setStyle("LINK")
+        .setLabel("실행중인 게임 이동하기")
+        .setEmoji("🎲");
+      const actionRow = new MessageActionRow({
+        components: [link],
+      });
+      msg.reply({
+        content: "이미 이 채널에서 게임이 실행 중입니다.",
+        components: [actionRow],
+      });
       return;
     }
     const leftButton = new MessageButton()

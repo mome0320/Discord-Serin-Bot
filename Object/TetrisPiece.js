@@ -19,7 +19,7 @@ class TetrisPiece {
         const PosY = this.y + y;
         const PosX = this.x + x;
         if (value > 0) {
-          this.board.grid[PosY][PosX] = 1;
+          this.board.grid[PosY][PosX] = value;
         }
       })
     );
