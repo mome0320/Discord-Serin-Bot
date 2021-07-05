@@ -5,8 +5,10 @@ class Tetris {
     this.row = row;
     this.column = column;
     this.grid = this.initGrid();
-    this.nowPiece = new TetrisPiece(this);
+    this.nowPiece = null;
     this.queue = { x: 0, y: 0, rotate: 0 };
+    this.message = null;
+    this.isEnd = true;
   }
   initGrid() {
     return Array.from({ length: this.row }, () => Array(this.column).fill(0));
@@ -14,16 +16,29 @@ class Tetris {
 
   get viewGridHuman() {
     return this.grid.map((row) =>
-      row.map((value) => (value > 0 ? "🟦" : "⬜")).join("")
+      row.map((value) => (value > 0 ? "🟦" : "⬛")).join("")
     );
   }
 
   render() {
-    new MessageEmbed().setDescription(this.viewGridHuman.join("\n"));
+    const embed = new MessageEmbed()
+      .setDescription(this.viewGridHuman.join("\n"))
+      .setColor("#2f3136");
+    if (this.isEnd) embed.setTitle("GAME OVER");
+    return embed;
   }
 
   resetQueue() {
     this.queue = { x: 0, y: 0, rotate: 0 };
+  }
+
+  clearLines() {
+    this.grid.forEach((line, y) => {
+      if (line.every((value) => value > 0)) {
+        this.grid.splice(y, 1);
+        this.grid.unshift(Array(this.column).fill(0));
+      }
+    });
   }
 
   isVaild(piece) {
@@ -40,13 +55,11 @@ class Tetris {
 
   isInsideWalls(x, y) {
     const value = x >= 0 && x < this.column && y <= this.row;
-    // console.log('isinsideWalls?',x,y,value);
     return value;
   }
 
   notOccupied(x, y) {
     const value = Boolean(this.grid[y] && this.grid[y][x] === 0);
-    // console.log('notOccupied?',x,y,value);
     return value;
   }
 
@@ -63,8 +76,10 @@ class Tetris {
 
   // hard coding..
   update() {
+    if (!this.nowPiece || this.isEnd) return this.resetQueue();
     const lastShape = JSON.parse(JSON.stringify(this.nowPiece.shape.slice()));
     this.nowPiece.remove();
+    this.clearLines();
     while (this.queue.rotate > 0) {
       this.nowPiece.shape = this.rotateShape(this.nowPiece);
       this.queue.rotate--;
@@ -72,18 +87,52 @@ class Tetris {
     if (!this.isVaild(this.nowPiece)) this.nowPiece.shape = lastShape;
 
     this.nowPiece.move({ dx: this.queue.x, dy: this.queue.y });
-    const newTetrisBlock = this.drop();
+    const dropResult = this.drop();
     this.nowPiece.place();
-    if (newTetrisBlock) this.nowPiece = newTetrisBlock;
+    if (dropResult) {
+      if (dropResult == "gameOver") this.isEnd = true;
+      else if (dropResult == "newPiece") this.nowPiece = new TetrisPiece(this);
+    }
     this.resetQueue();
   }
   drop() {
     this.nowPiece.moveY(1, { vaildCheck: false });
     if (!this.isVaild(this.nowPiece)) {
       this.nowPiece.moveY(-1);
-      console.log(this.nowPiece.y);
-      return new TetrisPiece(this);
+      this.nowPiece.place();
+      if (this.nowPiece.y == 0) return "gameOver";
+      else return "newPiece";
     }
+    return null;
+  }
+  async startWithDiscord(message) {
+    if (!this.isEnd)
+      return message.channel.send(
+        "이미 해당 인스턴스가 게임을 진행 중에 있습니다. 수동 중단 요청!"
+      );
+    this.message = message;
+    this.init();
+    await message.edit({
+      content: null,
+      embeds: [this.render()],
+    });
+    this.interval = setInterval(() => {
+      this.update();
+      message.edit({ content: null, embeds: [this.render()] });
+      if (this.isEnd) this.destroy();
+    }, 1500);
+  }
+  init() {
+    this.nowPiece = new TetrisPiece(this);
+    this.grid = this.initGrid();
+    this.nowPiece.place();
+    this.isEnd = false;
+    this.resetQueue();
+  }
+  destroy() {
+    this.isEnd = true;
+    if (this.interval) clearInterval(this.interval);
+    this.message.client._tetris.delete(this.message.id);
   }
 }
 module.exports = Tetris;

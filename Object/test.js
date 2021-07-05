@@ -1,6 +1,7 @@
 const tetris = require("./Tetris");
 const newGame = new tetris(19, 9);
-setInterval(() => {
+const interval = setInterval(() => {
+  if (newGame.nowPiece == null) clearInterval(interval);
   newGame.queue.rotate = 1;
   newGame.queue.x = 1;
   newGame.update();

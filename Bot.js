@@ -11,6 +11,7 @@ class Bot extends Client {
     this._players = new Collection();
     this.prefix = options.prefix;
     this.token = options.token;
+    this._tetris = new Collection();
   }
 
   async setup() {
