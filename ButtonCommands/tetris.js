@@ -1,7 +1,7 @@
 module.exports = {
   name: "테트리스",
   execute: async ({ bot, args, msg, interaction }) => {
-    const game = bot._tetris.get(msg.id);
+    const game = bot._tetris.get(msg.channel.id);
     if (!game)
       return interaction.reply({
         content: "현재 게임이 플레이 중이 아닙니다.",

@@ -22,8 +22,10 @@ class Tetris {
 
   render() {
     const embed = new MessageEmbed()
+      .setTitle("TETRIS")
       .setDescription(this.viewGridHuman.join("\n"))
-      .setColor("#2f3136");
+      .setColor("#2f3136")
+      .setFooter("여러 사람이 제어할 수 있습니다. 트롤링 주의!");
     if (this.isEnd) embed.setTitle("GAME OVER");
     return embed;
   }
@@ -132,7 +134,7 @@ class Tetris {
   destroy() {
     this.isEnd = true;
     if (this.interval) clearInterval(this.interval);
-    this.message.client._tetris.delete(this.message.id);
+    this.message.client._tetris.delete(this.message.channel.id);
   }
 }
 module.exports = Tetris;

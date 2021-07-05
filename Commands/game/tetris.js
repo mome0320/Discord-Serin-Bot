@@ -27,7 +27,7 @@ module.exports = {
     const actionRow = new MessageActionRow({
       components: [leftButton, rotateButton, rightButton, downButton],
     });
-    const playMessage = await msg.reply({
+    const playMessage = await msg.channel.send({
       content: "게임 인스턴스 생성 중입니다..",
       components: [actionRow],
     });
