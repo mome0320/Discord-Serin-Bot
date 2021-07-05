@@ -6,7 +6,7 @@ module.exports = {
     const player = bot._players.get(msg.guild.id);
     player.infinitePlay = !player.infinitePlay;
     const content = player.infinitePlay
-      ? "노래 추천을 켰어요!.\n만약에 재생목록에 아무것도 없으면 제가 추천해드릴게요!"
+      ? "노래 추천을 켰어요!\n만약에 재생목록에 아무것도 없으면 제가 추천해드릴게요!"
       : "노래 추천을 껐어요.";
     msg.reply({ content });
   },
