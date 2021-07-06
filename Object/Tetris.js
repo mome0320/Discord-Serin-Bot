@@ -74,14 +74,15 @@ class Tetris {
     return Boolean(this.grid[y] && this.grid[y][x] === 0);
   }
 
-  rotateShape(piece) {
+  rotateShape(piece, { reverse = false } = {}) {
     const shape = piece.shape;
     for (let y = 0; y < shape.length; ++y) {
       for (let x = 0; x < y; ++x) {
         [shape[x][y], shape[y][x]] = [shape[y][x], shape[x][y]];
       }
     }
-    shape.forEach((row) => row.reverse());
+    if (reverse) shape.reverse();
+    else shape.forEach((row) => row.reverse());
     return shape;
   }
 
@@ -111,13 +112,14 @@ class Tetris {
       this.queue.y = 0;
     }
 
-    const lastShape = JSON.parse(JSON.stringify(this.nowPiece.shape.slice()));
-    while (this.queue.rotate > 0) {
-      this.nowPiece.shape = this.rotateShape(this.nowPiece);
+    const lastPiece = JSON.parse(JSON.stringify(this.nowPiece));
+    while (this.queue.rotate > 0 && this.isVaild(lastPiece)) {
+      lastPiece.shape = this.rotateShape(lastPiece);
       this.queue.rotate--;
     }
-    if (!this.isVaild(this.nowPiece)) this.nowPiece.shape = lastShape;
-
+    if (!this.isVaild(lastPiece))
+      lastPiece.shape = this.rotateShape(lastPiece, { reverse: true });
+    this.nowPiece.setJSON(lastPiece);
     this.nowPiece.move({ dx: this.queue.x, dy: this.queue.y });
     this.nowPiece.place();
     this.resetQueue();
