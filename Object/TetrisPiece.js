@@ -29,16 +29,31 @@ class TetrisPiece {
     );
   }
   move({ dx = 0, dy = 0 }) {
-    this.moveX(dx);
-    this.moveY(dy);
+    const xSuccess = this.moveX(dx);
+    const ySuccess = this.moveY(dy);
+    return xSuccess && ySuccess;
   }
   moveX(dx = 0, { vaildCheck = true } = {}) {
     this.x += dx;
-    if (vaildCheck && !this.board.isVaild(this)) this.x -= dx;
+    if (vaildCheck && !this.board.isVaild(this)) {
+      this.x -= dx;
+      return false;
+    } else return true;
   }
   moveY(dy = 0, { vaildCheck = true } = {}) {
     this.y += dy;
-    if (vaildCheck && !this.board.isVaild(this)) this.y -= dy;
+    if (vaildCheck && !this.board.isVaild(this)) {
+      this.y -= dy;
+      return false;
+    } else return true;
+  }
+  toJSON() {
+    return { x: this.x, y: this.y, shape: this.shape };
+  }
+  setJSON(data) {
+    this.x = data.x;
+    this.y = data.y;
+    this.shape = data.shape;
   }
 }
 
