@@ -33,14 +33,12 @@ class TetrisPiece {
     this.moveY(dy);
   }
   moveX(dx = 0, { vaildCheck = true } = {}) {
-    const lastX = this.x;
     this.x += dx;
-    if (vaildCheck && !this.board.isVaild(this)) this.x = lastX;
+    if (vaildCheck && !this.board.isVaild(this)) this.x -= dx;
   }
   moveY(dy = 0, { vaildCheck = true } = {}) {
-    const lastY = this.y;
     this.y += dy;
-    if (vaildCheck && !this.board.isVaild(this)) this.y = lastY;
+    if (vaildCheck && !this.board.isVaild(this)) this.y -= dy;
   }
 }
 
