@@ -126,9 +126,8 @@ class Tetris {
   }
 
   drop() {
-    this.nowPiece.moveY(1, { vaildCheck: false });
-    if (!this.isVaild(this.nowPiece)) {
-      this.nowPiece.moveY(-1);
+    const result = this.nowPiece.moveY(1);
+    if (!result) {
       if (this.nowPiece.y == 0) return "gameOver";
       else return "newPiece";
     }
