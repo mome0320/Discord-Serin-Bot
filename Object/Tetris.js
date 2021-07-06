@@ -1,3 +1,6 @@
+const moment = require("moment");
+const momentDurationFormatSetup = require("moment-duration-format");
+momentDurationFormatSetup(moment);
 const TetrisPiece = require("./TetrisPiece");
 const { MessageEmbed } = require("discord.js");
 class Tetris {
@@ -9,6 +12,8 @@ class Tetris {
     this.queue = { x: 0, y: 0, rotate: 0 };
     this.message = null;
     this.isEnd = true;
+    this.score = 0;
+    this.time = 0;
   }
   initGrid() {
     return Array.from({ length: this.row }, () => Array(this.column).fill(0));
@@ -24,6 +29,12 @@ class Tetris {
       .setTitle("TETRIS")
       .setDescription(this.viewGridHuman.join("\n"))
       .setColor("#2f3136")
+      .addField(
+        "TIME",
+        `${moment.duration(this.time, "seconds").format()}`,
+        true
+      )
+      .addField("SCORE", `${this.score}`, true)
       .setFooter("여러 사람이 제어할 수 있습니다. 트롤링 주의!");
     if (this.isEnd) embed.setTitle("GAME OVER");
     return embed;
@@ -38,6 +49,7 @@ class Tetris {
       if (line.every((value) => value > 0)) {
         this.grid.splice(y, 1);
         this.grid.unshift(Array(this.column).fill(0));
+        this.score++;
       }
     });
   }
@@ -134,6 +146,7 @@ class Tetris {
     });
     this.interval = setInterval(() => {
       this.update();
+      ++this.time;
       message.edit({ content: null, embeds: [this.render()] });
       if (this.isEnd) this.destroy();
     }, 1500);
@@ -145,7 +158,10 @@ class Tetris {
     this.nowPiece.place();
     this.isEnd = false;
     this.resetQueue();
+    this.score = 0;
+    this.start = 0;
   }
+
   destroy() {
     this.isEnd = true;
     if (this.interval) clearInterval(this.interval);
