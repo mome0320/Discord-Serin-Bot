@@ -88,7 +88,7 @@ class Tetris {
 
   // hard coding..
   update() {
-    if (!this.nowPiece || this.isEnd) return this.resetQueue();
+    if (this.isEnd) return this.resetQueue();
     this.nowPiece.remove();
     this.clearLines();
 
@@ -150,7 +150,7 @@ class Tetris {
       ++this.time;
       message.edit({ content: null, embeds: [this.render()] });
       if (this.isEnd) this.destroy();
-    }, 1500);
+    }, 2000);
   }
 
   init() {
