@@ -13,6 +13,7 @@ class Tetris {
   initGrid() {
     return Array.from({ length: this.row }, () => Array(this.column).fill(0));
   }
+
   get viewGridHuman() {
     const color = ["⬛", "🟧", "🟦", "🟥", "🟩", "🟫", "🟨", "🟪"];
     return this.grid.map((row) => row.map((value) => color[value]).join(""));
@@ -54,13 +55,11 @@ class Tetris {
   }
 
   isInsideWalls(x, y) {
-    const value = x >= 0 && x < this.column && y <= this.row;
-    return value;
+    return x >= 0 && x < this.column && y <= this.row;
   }
 
   notOccupied(x, y) {
-    const value = Boolean(this.grid[y] && this.grid[y][x] === 0);
-    return value;
+    return Boolean(this.grid[y] && this.grid[y][x] === 0);
   }
 
   rotateShape(piece) {
@@ -77,9 +76,30 @@ class Tetris {
   // hard coding..
   update() {
     if (!this.nowPiece || this.isEnd) return this.resetQueue();
-    const lastShape = JSON.parse(JSON.stringify(this.nowPiece.shape.slice()));
     this.nowPiece.remove();
     this.clearLines();
+
+    const dropResult = this.drop();
+    if (dropResult == "gameOver") {
+      this.nowPiece.place();
+      this.isEnd = true;
+      return;
+    } else if (dropResult == "newPiece" && this.queue.rotate === 0) {
+      this.nowPiece.place();
+      const newPiece = new TetrisPiece(this);
+      if (!this.isVaild(newPiece)) {
+        this.isEnd = true;
+        return;
+      } else {
+        this.nowPiece = newPiece;
+      }
+    }
+    if (dropResult) {
+      this.queue.x = 0;
+      this.queue.y = 0;
+    }
+
+    const lastShape = JSON.parse(JSON.stringify(this.nowPiece.shape.slice()));
     while (this.queue.rotate > 0) {
       this.nowPiece.shape = this.rotateShape(this.nowPiece);
       this.queue.rotate--;
@@ -87,26 +107,20 @@ class Tetris {
     if (!this.isVaild(this.nowPiece)) this.nowPiece.shape = lastShape;
 
     this.nowPiece.move({ dx: this.queue.x, dy: this.queue.y });
-    const dropResult = this.drop();
     this.nowPiece.place();
-    if (dropResult) {
-      if (dropResult == "gameOver") this.isEnd = true;
-      else if (dropResult == "newPiece") {
-        this.nowPiece = new TetrisPiece(this);
-      }
-    }
     this.resetQueue();
   }
+
   drop() {
     this.nowPiece.moveY(1, { vaildCheck: false });
     if (!this.isVaild(this.nowPiece)) {
       this.nowPiece.moveY(-1);
-      this.nowPiece.place();
       if (this.nowPiece.y == 0) return "gameOver";
       else return "newPiece";
     }
     return null;
   }
+
   async startWithDiscord(message) {
     if (!this.isEnd)
       return message.channel.send(
@@ -124,6 +138,7 @@ class Tetris {
       if (this.isEnd) this.destroy();
     }, 1500);
   }
+
   init() {
     this.nowPiece = new TetrisPiece(this);
     this.grid = this.initGrid();

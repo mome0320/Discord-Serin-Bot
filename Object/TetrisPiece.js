@@ -5,12 +5,6 @@ class TetrisPiece {
     this.y = 0;
     this.shape = shapeList[Math.floor(Math.random() * shapeList.length)];
     this.board = board;
-    this.place();
-  }
-  spawn() {
-    this.x = 0;
-    this.y = 0;
-    this.place();
   }
 
   place() {
