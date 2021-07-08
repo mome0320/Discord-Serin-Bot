@@ -20,8 +20,14 @@ class Tetris {
   }
 
   get viewGridHuman() {
-    const color = ["⬛", "🟧", "🟦", "🟥", "🟩", "🟫", "🟨", "🟪"];
-    return this.grid.map((row) => row.map((value) => color[value]).join(""));
+    /* eslint-disable no-unused-vars */
+    const colorCirle = ["⚫", "🟠", "🔵", "🔴", "🟢", "🟤", "🟡", "🟣"];
+    const colorDefault = ["⬛", "🟧", "🟦", "🟥", "🟩", "🟫", "🟨", "🟪"];
+    const colorHeart = ["🖤", "❤️", "🧡", "💛", "💚", "💙", "💜", "🤎"];
+    const foodColor = ["⚫", "🍓", "🥦", "🍊", "🍋", "🍇", "🌺", "🍙"];
+    return this.grid.map((row) =>
+      row.map((value) => colorDefault[value]).join("")
+    );
   }
 
   render() {
