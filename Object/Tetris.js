@@ -27,7 +27,6 @@ class Tetris {
   render() {
     const embed = new MessageEmbed()
       .setTitle("TETRIS")
-      .setDescription(this.viewGridHuman.join("\n"))
       .setColor("#2f3136")
       .addField(
         "TIME",
@@ -35,6 +34,7 @@ class Tetris {
         true
       )
       .addField("SCORE", `${this.score}`, true)
+      .addField("BOARD", this.viewGridHuman.join("\n"))
       .setFooter("여러 사람이 제어할 수 있습니다. 트롤링 주의!");
     if (this.isEnd) embed.setTitle("GAME OVER");
     return embed;
