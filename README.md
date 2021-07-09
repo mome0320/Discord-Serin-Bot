@@ -3,8 +3,8 @@
 The Discord bot for Testing.
 Based Discord.js V13
 
-해당 프로젝트는 처음에는 사설 뮤직 봇을 목적으로 제작이 되었으나
-현재는 제가 생각 나는 대로 기능을 덧붙여 잡다한 기능이 가진 봇입니다.
+해당 프로젝트는 처음에는 사설 뮤직 봇을 목적으로 제작이 되었으나  
+현재는 제가 생각 나는 대로 기능을 덧붙여 잡다한 기능이 가진 봇입니다.  
 주로 제가 노는 용도로 사용하는 봇입니다.
 
 Discord.js V13 기반이므로 관심이 있으시면 한번 보는 것도 나쁘진 않습니다.
@@ -47,5 +47,5 @@ git clone https://github.com/mome0320/Discord-Serin-Bot
 
 This project is licensed under the terms of the **Beerware Lisence**.
 
-해당 프로젝트는 **Beerware Lisence** 약관을 따릅니다.
+해당 프로젝트는 **Beerware Lisence** 약관을 따릅니다.  
 언젠간 저랑 만날 때 이게 괜찮다고 생각하면 맥주 쏘시면 됩니다. ㅎㅎ 🍺 
