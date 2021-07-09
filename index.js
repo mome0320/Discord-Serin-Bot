@@ -4,7 +4,7 @@ const CONFIG = require("./config.private.json");
 
 const bot = new Bot({
   token: CONFIG.DISCORD_TOKEN,
-  intents: Intents.ALL,
+  intents: Object.values(Intents.FLAGS).reduce((acc, p) => acc | p, 0),
   prefix: CONFIG.PREFIX,
 });
 bot.setup().then(bot.start());
