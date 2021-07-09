@@ -470,7 +470,7 @@ discord-api-types@^0.19.0-next.f393ba520d7d6d2aacaca7b3ca5d355fab614f6e:
 
 "discord.js@https://github.com/discordjs/discord.js#master":
   version "13.0.0-dev"
-  resolved "https://github.com/discordjs/discord.js#610b0b4dd6b6e66c05c22eb852d2a752b99d07ba"
+  resolved "https://github.com/discordjs/discord.js#d6c43a50bd608c233919e6386683c126cf821346"
   dependencies:
     "@discordjs/builders" "^0.2.0"
     "@discordjs/collection" "^0.1.6"
@@ -491,7 +491,7 @@ doctrine@^3.0.0:
 
 "dokdo@https://github.com/mome0320/dokdo#support-djs-v13":
   version "0.3.0"
-  resolved "https://github.com/mome0320/dokdo#d8eb26e4cfc5478e316c02f03d1751975c6ed77b"
+  resolved "https://github.com/mome0320/dokdo#4d2e0feb225f50ba9970b1212af4698e1b7b2812"
   dependencies:
     dayjs "^1.9.6"
     node-fetch "^2.6.1"
