@@ -214,7 +214,7 @@ class MusicPlayer {
   get playbuttonEmoji() {
     const emojiGuild = this.client.guilds.cache.find(
       (guild) =>
-        guild.ownerID == "236696896658341888" && guild.name == "테스트방"
+        guild.ownerId == "236696896658341888" && guild.name == "테스트방"
     );
     const emojiName = this.isPaused ? "play" : "pause";
     const emoji = emojiGuild.emojis.cache.find(
