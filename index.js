@@ -1,5 +1,5 @@
 const { Intents } = require("discord.js");
-const Bot = require("./Bot");
+const Bot = require("./src/Bot");
 const CONFIG = require("./config.private.json");
 
 const bot = new Bot({
