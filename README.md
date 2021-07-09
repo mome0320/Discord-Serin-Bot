@@ -14,10 +14,10 @@ Discord.js V13 기반이므로 관심이 있으시면 한번 보는 것도 나�
 
 ## Contributing (기여)
 
-Issues and PR is always welcome!
+Issues and PR is always welcome!  
 All pull requests should adhere to [the Conventional Commits specification](https://www.conventionalcommits.org/)
 
-PR이나 이슈 언제나 환영입니다!
+PR이나 이슈 언제나 환영입니다!  
 다만 모든 PR의 커밋 메세지는 [the Conventional Commits specification](https://www.conventionalcommits.org/)를 따라주셔야합니다.
 
 ## Setup (설치)
