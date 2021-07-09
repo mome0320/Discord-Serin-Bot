@@ -1,7 +1,12 @@
 {
-  "name": "music-bot",
+  "name": "discord-serin-bot",
+  "description": "Discord bot for Testing",
   "version": "1.0.0",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mome0320/Discord-Serin-Bot.git"
+  },
   "dependencies": {
     "@discordjs/opus": "^0.5.0",
     "@discordjs/voice": "^0.5.0",
@@ -24,11 +29,10 @@
     "ffmpeg-static": "latest"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node .",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
-  "author": "MoartMedia",
-  "license": "MIT"
+  "author": "mome0320 <partio2@naver.com> (https://github.com/mome0320)",
+  "license": "Beerware"
 }
