@@ -1,6 +1,6 @@
 const moment = require("moment");
 const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
-const VoiceAdapter = require("./MusicAdapter");
+const VoiceAdapter = require("./VoiceAdapter");
 const REPEAT = {
   NONE: 0,
   ALL: 1,
@@ -10,7 +10,7 @@ const isPlayMessage = (message) =>
   message.embeds[0]?.author?.name == "현재 플레이 중인 음악:" &&
   message.author.id == message.client.user.id;
 
-class MusicPlayer {
+class Player {
   constructor(client, musicChannel) {
     this.client = client;
     this.mode = REPEAT.NONE;
@@ -120,9 +120,9 @@ class MusicPlayer {
         requestor: this.guild.me,
       });
       this.nowPlaying = relatedMusic;
-      await this.responseChannel?.send(
-        "재생 목록이 비어있어서 심심한데.. 제가 이 음악과 관련된 노래를 틀어드릴게요!"
-      );
+        await this.responseChannel?.send(
+          "재생 목록이 비어있어서 심심한데.. 제가 이 음악과 관련된 노래를 틀어드릴게요!"
+        );
     } else {
       this.nowPlaying = null;
     }
@@ -268,4 +268,4 @@ class MusicPlayer {
   }
 }
 
-module.exports = MusicPlayer;
+module.exports = Player;
