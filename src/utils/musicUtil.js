@@ -1,5 +1,5 @@
-const MusicPlayer = require("../Object/MusicPlayer");
-const Music = require("../Object/Music");
+const Player = require("../structures/music/Player");
+const Music = require("../structures/music/Music");
 const ytdl = require("ytdl-core");
 const ytpl = require("ytpl");
 
@@ -7,7 +7,7 @@ const createPlayer = (guild, voiceChannel) => {
   const client = guild.client;
   let player = client._players.get(guild.id);
   if (!player) {
-    player = new MusicPlayer(client, voiceChannel);
+    player = new Player(client, voiceChannel);
     client._players.set(guild.id, player);
   }
   return player;
