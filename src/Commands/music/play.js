@@ -1,4 +1,4 @@
-const { MessageButton } = require("discord.js");
+const { MessageButton, Formatters } = require("discord.js");
 const ytsr = require("ytsr");
 const { splitButtons } = require("../../utils/componentUtil");
 module.exports = {
@@ -15,7 +15,10 @@ module.exports = {
     );
     const content =
       "💽 재생 할 곡의 번호를 눌러주세요.\n" +
-      `\`\`\`md\n# 검색 결과:\n${SerchResultStrings.join("\n")}\n\`\`\``;
+      Formatters.codeBlock(
+        "markdown",
+        "# 검색 결과:\n" + SerchResultStrings.join("\n")
+      );
 
     const queueAddMessageButtons = searchResult.map(
       (video, index) =>
