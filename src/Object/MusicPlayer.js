@@ -1,6 +1,4 @@
 const moment = require("moment");
-const momentDurationFormatSetup = require("moment-duration-format");
-momentDurationFormatSetup(moment);
 const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 const VoiceAdapter = require("./MusicAdapter");
 const REPEAT = {

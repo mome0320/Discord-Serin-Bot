@@ -2,6 +2,8 @@ const { Client, Collection } = require("discord.js");
 const { loadAllCommands } = require("./load/command");
 const events = require("./Bot.on");
 const Dokdo = require("dokdo");
+const moment = require("moment");
+const momentDurationFormatSetup = require("moment-duration-format");
 const { debugNoPerm } = require("./utils/util");
 
 class Bot extends Client {
@@ -14,6 +16,7 @@ class Bot extends Client {
   }
 
   async setup() {
+    momentDurationFormatSetup(moment);
     this.debug = new Dokdo(this, {
       noPerm: debugNoPerm,
       aliases: ["제발"],

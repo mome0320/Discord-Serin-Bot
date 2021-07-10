@@ -1,7 +1,5 @@
 const moment = require("moment");
-const momentDurationFormatSetup = require("moment-duration-format");
 const { createAudioResource } = require("@discordjs/voice");
-momentDurationFormatSetup(moment);
 const ytdl = require("ytdl-core");
 const { MessageEmbed } = require("discord.js");
 
