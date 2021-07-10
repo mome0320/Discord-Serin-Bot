@@ -17,6 +17,7 @@ class Bot extends Client {
 
   async setup() {
     momentDurationFormatSetup(moment);
+    moment.locale("ko");
     this.debug = new Dokdo(this, {
       noPerm: debugNoPerm,
       aliases: ["제발"],
