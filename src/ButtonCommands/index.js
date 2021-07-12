@@ -3,4 +3,5 @@ module.exports = {
   LIVEMSG: require("./liveMsg"),
   QUEUEADD: require("./queueAdd"),
   FACESIZE: require("./faceSize"),
+  PLAYLIST: require("./PlayList"),
 };

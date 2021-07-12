@@ -2,14 +2,32 @@ const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 
 module.exports = {
   name: "재생목록",
-  execute: async ({ msg, bot }) => {
-    if (!bot._players.has(msg.guild.id))
-      return msg.reply("현재 플레이어가 실행 중이 아닙니다.");
+  execute: async ({ bot, args, msg, interaction }) => {
     const player = bot._players.get(msg.guild.id);
-    const page = 1;
+    if (!player)
+      return interaction.reply({
+        content: "현재 플레이어가 플레이 중이 아닙니다.",
+        ephemeral: true,
+      });
+    if (args[1] == "shuffle") player.playlist.sort(() => Math.random() - 0.5);
+    const page = parseInt(args[0]);
+    if (page > player.totalPage)
+      return interaction.reply({
+        content: "마지막 페이지입니다.",
+        ephemeral: true,
+      });
+    if (page < 1)
+      return interaction.reply({
+        content: "처음 페이지입니다.",
+        ephemeral: true,
+      });
     const playList = player.getList(page);
     if (playList.length <= 0)
-      return msg.reply("📂 재생 목록이 비어있습니다! 노래를 넣어주세요.");
+      return interaction.update({
+        content: "📂 재생 목록이 비어있습니다! 노래를 넣어주세요.",
+        embeds: [],
+        components: [],
+      });
     const playListString = playList.map(
       (songString, i) => `**${(page - 1) * 10 + (i + 1)}. ${songString}**`
     );
@@ -34,7 +52,9 @@ module.exports = {
       shuffle,
       next,
     ]);
-
-    msg.channel.send({ embeds: [embed], components: [actionRow] });
+    interaction.update({
+      embeds: [embed],
+      components: [actionRow],
+    });
   },
 };
