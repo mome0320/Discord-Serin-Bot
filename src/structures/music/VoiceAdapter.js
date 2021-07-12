@@ -10,6 +10,7 @@ class VoiceAdapter {
     this.voiceChannel = music;
     this.sendVoiceServerData = null;
     this.sendVoiceStateData = null;
+    this._volume = 1;
     this.connection = null;
     this.player = createAudioPlayer();
   }
@@ -19,6 +20,16 @@ class VoiceAdapter {
     if (this.connection) {
       this.connection.rejoin({ channelId: this.voiceChannel.id });
     }
+  }
+  set volume(value) {
+    this._volume = value;
+    if (this.player.state.status == "idle") return;
+    if (!this.player.state.resource.volume) return;
+    this.player.state.resource.volume.setVolume(value);
+  }
+
+  get volume() {
+    return this._volume;
   }
 
   _voiceRegister(methods) {
@@ -78,6 +89,7 @@ class VoiceAdapter {
   }
 
   play(input) {
+    if (input.volume) input.volume.setVolume(this.volume);
     this.player.play(input);
     return this.player;
   }

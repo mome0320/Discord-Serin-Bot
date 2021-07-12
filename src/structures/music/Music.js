@@ -39,7 +39,8 @@ class Music {
 
   createAudioResource() {
     return createAudioResource(
-      ytdl(this.id, { quality: "highestaudio", highWaterMark: 1 << 25 })
+      ytdl(this.id, { quality: "highestaudio", highWaterMark: 1 << 25 }),
+      { inlineVolume: true }
     );
   }
   async getRelatedMusicList({ requestor } = {}) {

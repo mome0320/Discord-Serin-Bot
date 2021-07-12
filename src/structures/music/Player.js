@@ -84,7 +84,7 @@ class Player {
       const isSuccess = await this.connect();
       if (!isSuccess) return;
     }
-    this.player.play(this.nowPlaying.createAudioResource());
+    this.adapter.play(this.nowPlaying.createAudioResource());
     if (this.responseChannel) {
       const lastMessage = this.responseChannel.messages.cache.last();
       if (isPlayMessage(lastMessage))
