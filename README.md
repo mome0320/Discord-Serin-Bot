@@ -43,9 +43,9 @@ git clone https://github.com/mome0320/Discord-Serin-Bot
 
 - Just `yarn` or `npm install` (yarnpkg is recommand)
 
-## Lisence (약관)
+## Licence (약관)
 
-This project is licensed under the terms of the **Beerware Lisence**.
+This project is licensed under the terms of the **Beerware Licence**.
 
-해당 프로젝트는 **Beerware Lisence** 약관을 따릅니다.  
+해당 프로젝트는 **Beerware Licence** 약관을 따릅니다.  
 언젠간 저랑 만날 때 이게 괜찮다고 생각하면 맥주 쏘시면 됩니다. ㅎㅎ 🍺 
