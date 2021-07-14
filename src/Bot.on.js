@@ -32,7 +32,7 @@ const onMessage = async function (msg) {
 };
 const buttonCommands = require("./ButtonCommands");
 const onIntegration = async function (interaction) {
-  if (interaction.isButton) {
+  if (interaction.isButton()) {
     const { member, message, customId } = interaction;
     const [cmdName, ...args] = customId.split("|");
     const buttonExecutor = buttonCommands[cmdName];
