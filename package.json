@@ -11,7 +11,7 @@
     "@discordjs/opus": "^0.5.0",
     "@discordjs/voice": "^0.5.0",
     "babel-eslint": "^10.1.0",
-    "discord.js": "^13.0.0-dev.d433fe8.1626004976",
+    "discord.js": "^13.0.0",
     "dokdo": "https://github.com/mome0320/dokdo#support-djs-v13",
     "eslint": "^7.29.0",
     "eslint-config-prettier": "^8.3.0",
@@ -20,7 +20,7 @@
     "moment-duration-format": "^2.3.2",
     "node-fetch": "^2.6.1",
     "prettier": "^2.3.1",
-    "sodium": "^3.0.2",
+    "tweetnacl": "^1.0.3",
     "ytdl-core": "^4.8.3",
     "ytpl": "^2.2.1",
     "ytsr": "^3.2.1"
